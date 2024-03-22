@@ -129,6 +129,32 @@ class CinemaController {
         require "view/detail/detailRealisateur.php"; 
     }
 
+/////////DETAILS FILM
+    public function detailFilm($id){
+        $pdo = Connect::seConnecter();
+        //exécute la requête détail d'un film
+        $requeteFilm = $pdo->prepare("
+            SELECT f.affiche, f.titre, DATE_FORMAT(parution, '%d %m %Y') AS parution, f.duree, f.note, CONCAT(prenom, ' ', nom) AS nom_realisateur
+            FROM film f
+            INNER JOIN realisateur r ON f.id_realisateur = r.id_realisateur
+            INNER JOIN personne p ON r.id_personne = p.id_personne
+            WHERE f.id_film = :id
+        ");
+        $requeteFilm->execute(["id" => $id]);
+
+        //exécute la requête pour le casting d'un film
+        $requeteCasting = $pdo->prepare("
+            SELECT CONCAT(prenom, ' ', nom) AS nomActeur, role_personnage, p.photo, a.id_acteur, r.id_role           FROM film f
+            INNER JOIN casting c ON f.id_film = c.id_film
+            INNER JOIN acteur a ON c.id_acteur = a.id_acteur
+            INNER JOIN personne p ON a.id_personne = p.id_personne
+            INNER JOIN role r ON c.id_role = r.id_role
+            WHERE f.id_film = :id
+        ");
+        $requeteCasting->execute(["id" => $id]);
+        require "view/detail/detailFilm.php"; 
+    }
+
 
     
 
