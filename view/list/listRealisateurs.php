@@ -1,7 +1,7 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
 
-<p>Il y a <?= $requete->rowCount() ?> réalisateurs</p> 
+<p>Il y a <?= $requeteRealisateurs->rowCount() ?> réalisateurs</p> 
 
 <table>
     <thead>
@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <?php
-            foreach($requete->fetchAll() as $realisateur) { ?>
+            foreach($requeteRealisateurs->fetchAll() as $realisateur) { ?>
                 <tr>
                     <td><?= $realisateur["id_realisateur"] ?></td>
                     <td><?= $realisateur["nomRealisateur"] ?></td>

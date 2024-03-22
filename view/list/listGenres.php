@@ -1,7 +1,7 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
 
-<p>Il y a <?= $requete->rowCount() ?> Genres</p> 
+<p>Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
 
 <table>
     <thead>
@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <?php
-            foreach($requete->fetchAll() as $genre) { ?>
+            foreach($requeteGenres->fetchAll() as $genre) { ?>
                 <tr>
                     <td><?= $genre["id_genre"] ?></td>
                     <td><?= $genre["nom_genre"] ?></td>

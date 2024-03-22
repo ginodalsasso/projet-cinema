@@ -1,7 +1,7 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
 
-<p>Il y a <?= $requete->rowCount() ?> films</p> 
+<p>Il y a <?= $requeteFilms->rowCount() ?> films</p> 
 
 <table>
     <thead>
@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <?php
-            foreach($requete->fetchAll() as $film) { ?>
+            foreach($requeteFilms->fetchAll() as $film) { ?>
                 <tr>
                     <td><?= $film["titre"] ?></td>
                     <td><?= $film["parution"] ?></td>

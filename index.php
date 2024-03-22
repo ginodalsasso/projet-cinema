@@ -9,8 +9,8 @@ spl_autoload_register(function ($class_name) { //n autocharge les classes du pro
 
 $ctrlCinema = new CinemaController(); //instance le controller Cinema
 
-$id = (isset($_GET["id"])) ? $_GET["id"] : null;
-// $type = (isset($_GET["type"])) ? $_GET["type"] : null;
+//En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller
+$id= (isset($_GET["id"])) ? $_GET["id"] : null;
 
 
 if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller

@@ -10,7 +10,7 @@ class CinemaController {
     public function listFilms(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
-        $requete = $pdo->query("
+        $requeteFilms = $pdo->query("
             SELECT titre, DATE_FORMAT(parution, '%Y') AS parution
             FROM film
         ");
@@ -22,7 +22,7 @@ class CinemaController {
     public function listActeurs(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
-        $requete = $pdo->query("
+        $requeteActeurs = $pdo->query("
             SELECT CONCAT(prenom,' ',nom) AS nomActeur, id_acteur
             FROM personne p
             INNER JOIN acteur a ON p.id_personne = a.id_personne
@@ -36,7 +36,7 @@ class CinemaController {
     public function listGenres(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
-        $requete = $pdo->query("
+        $requeteGenres = $pdo->query("
             SELECT nom_genre, id_genre
             FROM genre
             ORDER BY nom_genre ASC
@@ -49,7 +49,7 @@ class CinemaController {
     public function listRealisateurs(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
-        $requete = $pdo->query("
+        $requeteRealisateurs = $pdo->query("
             SELECT CONCAT(prenom,' ',nom) AS nomRealisateur, id_realisateur
             FROM personne p
             INNER JOIN realisateur r ON p.id_personne = r.id_personne
@@ -63,7 +63,7 @@ class CinemaController {
     public function listRoles(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
-        $requete = $pdo->query("
+        $requeteRoles = $pdo->query("
             SELECT p.id_personne, a.id_acteur, CONCAT(prenom,' ', nom) AS acteurs, role_personnage, titre
             FROM film f
             INNER JOIN casting c ON f.id_film = c.id_film
@@ -77,29 +77,41 @@ class CinemaController {
 
 
 /////////DETAILS ACTEUR
-    public function listRoles(){
+    public function detailActeur($id){
         $pdo = Connect::seConnecter();
-        //exécute la requête de notre choix
-        $requete = $pdo->query("
-            SELECT p.id_personne, a.id_acteur, CONCAT(prenom,' ', nom) AS acteurs, role_personnage, titre
-            FROM film f
-            INNER JOIN casting c ON f.id_film = c.id_film
-            INNER JOIN acteur a ON c.id_acteur = a.id_acteur
+        //exécute la requête détail d'un acteur
+        $requeteActeur = $pdo->prepare("
+            SELECT CONCAT(p.prenom, ' ', p.nom) AS nomActeur, DATE_FORMAT(dateNaissance, '%d/%m/%Y') AS dateNaissance, p.sexe, a.id_personne, a.id_acteur
+            FROM acteur a
             INNER JOIN personne p ON a.id_personne = p.id_personne
-            INNER JOIN role r ON c.id_role = r.id_role        
+            WHERE a.id_acteur = :id
         ");
+        $requeteActeur->execute(["id" => $id]);
 
-        require "view/list/listRoles.php"; 
+        //exécute la requête liste film d'un acteur
+        $requeteFilmActeur = $pdo->prepare("
+            SELECT f.titre, DATE_FORMAT(f.parution, '%Y') AS parution, r.role_personnage, c.id_film, r.id_role
+            FROM casting c
+            INNER JOIN film f ON c.id_film = f.id_film
+            INNER JOIN role r ON c.id_role = r.id_role
+            WHERE c.id_acteur= :id
+            ORDER BY f.parution DESC
+        ");
+        $requeteFilmActeur->execute(["id" => $id]);
+        require "view/detail/detailActeur.php"; 
     }
 
 
+    
 
-    public function detActeur($id) {
-        $pdo = Connect::seConnecter();
-        //exécute la requête de notre choix
-        $requete = $pdo->prepare("SELECT * FROM acteur WHERE id_acteur = :id"); //Quand on fait une requête dans laquelle on a un élément variable (comme ici l'id de l'acteur), il faut faire un "prepare"
-        $requete->execute(["id" => $id]);  // dans le "execute" on fait passer un tableau associatif qui associe le nom de champ paramétré avec la valeur de l'id (celui passé dans la méthode : $id)
-        require "view/acteur/detailActeur.php";
-    }
+
+
+    // public function detActeur($id) {
+    //     $pdo = Connect::seConnecter();
+    //     //exécute la requête de notre choix
+    //     $requete = $pdo->prepare("SELECT * FROM acteur WHERE id_acteur = :id"); //Quand on fait une requête dans laquelle on a un élément variable (comme ici l'id de l'acteur), il faut faire un "prepare"
+    //     $requete->execute(["id" => $id]);  // dans le "execute" on fait passer un tableau associatif qui associe le nom de champ paramétré avec la valeur de l'id (celui passé dans la méthode : $id)
+    //     require "view/acteur/detailActeur.php";
+    // }
 }
 
