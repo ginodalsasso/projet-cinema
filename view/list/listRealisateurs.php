@@ -8,6 +8,7 @@
         <tr>
             <th>id</th>
             <th>Réalisateurs</th>
+            <th>Photo</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
                 <tr>
                     <td><?= $realisateur["id_realisateur"] ?></td>
                     <td><?= $realisateur["nomRealisateur"] ?></td>
+                    <td><img src="<?= $realisateur['photo']?>" alt="photo du réalisateur"></td>
                 </tr>
             <?php } ?>
     </tbody>

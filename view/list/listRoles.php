@@ -11,6 +11,7 @@
             <th>acteurs</th>
             <th>rôles</th>
             <th>films</th>
+            <th>photo</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
                     <td><?= $role["acteurs"] ?></td>
                     <td><?= $role["role_personnage"] ?></td>
                     <td><?= $role["titre"] ?></td>
+                    <td><img src="<?= $role['photo']?>" alt="photo de l'acteur"></td>
                 </tr>
             <?php } ?>
     </tbody>

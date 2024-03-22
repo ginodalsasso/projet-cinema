@@ -6,16 +6,18 @@
 <table>
     <thead>
         <tr>
-            <th>id</th>
+            <th>titre</th>
             <th>Genre</th>
+            <th>Afficher</th>
         </tr>
     </thead>
     <tbody>
         <?php
             foreach($requeteGenres->fetchAll() as $genre) { ?>
                 <tr>
-                    <td><?= $genre["id_genre"] ?></td>
+                    <td><?= $genre["titre"] ?></td>
                     <td><?= $genre["nom_genre"] ?></td>
+                    <td><img src="<?= $genre['affiche']?>" alt="affiche du film"></td>
                 </tr>
             <?php } ?>
     </tbody>

@@ -8,6 +8,7 @@
         <tr>
             <th>TITRE</th>
             <th>ANNEE SORTIE</th>
+            <th>AFFICHE</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
                 <tr>
                     <td><?= $film["titre"] ?></td>
                     <td><?= $film["parution"] ?></td>
+                    <td><img src="<?= $film['affiche']?>" alt="affiche du film"></td>
                 </tr>
             <?php } ?>
     </tbody>
@@ -27,3 +29,4 @@ $titre = "Liste des films";
 $titre_secondaire = "Liste des films";
 $contenu = ob_get_clean();
 require "view/template.php"; //injecter le contenu dans le template > template.php
+
