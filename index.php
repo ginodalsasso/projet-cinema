@@ -17,10 +17,16 @@ if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via 
     switch ($_GET["action"]){
 
         case "home" : $ctrlCinema->home(); break;
-        case "listFilms" : $ctrlCinema->listFilms(); break;
+        //list
         case "listActeurs" : $ctrlCinema->listActeurs(); break;
-        case "detailFilm" : $ctrlCinema->detailFilm($id); break;
+        case "listFilms" : $ctrlCinema->listFilms(); break;
+        case "listGenres" : $ctrlCinema->listGenres(); break;
+        case "listRealisateurs" : $ctrlCinema->listRealisateurs(); break;
+        case "listRoles" : $ctrlCinema->listRoles(); break;
+        //detail
         case "detailActeur" : $ctrlCinema->detailActeur($id); break;
+        case "detailFilm" : $ctrlCinema->detailFilm($id); break;
+        case "detailGenre" : $ctrlCinema->detailGenre($id); break;
         case "detailRealisateur" : $ctrlCinema->detailRealisateur($id); break;
         case "edition" : $ctrlCinema->edition($id); break; 
         case "addRemove" : $ctrlCinema->addRemove(); break; //pour une suppression, penser à l'id
