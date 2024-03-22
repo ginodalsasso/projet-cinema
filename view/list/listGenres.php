@@ -1,6 +1,7 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
 
+<!-- Affichage du nombre de genres -->
 <p>Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
 
 <table>
@@ -25,8 +26,11 @@
 
 <?php
 
+// Définition des titres pour la vue
 $titre = "Liste des genres";
 $titre_secondaire = "Liste des genres";
 
 $contenu = ob_get_clean();
-require "view/template.php"; //injecter le contenu dans le template > template.php
+
+ //injecter le contenu dans le template > template.php
+require "view/template.php";

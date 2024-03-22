@@ -1,6 +1,6 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
-
+<!-- Affichage du nombre d'Acteurs -->
 <p>Il y a <?= $requeteActeurs->rowCount() ?> acteurs</p> 
 
 <table>
@@ -25,8 +25,10 @@
 
 <?php
 
+// Définition des titres pour la vue
 $titre = "Liste des acteurs";
 $titre_secondaire = "Liste des acteurs";
 
 $contenu = ob_get_clean();
-require "view/template.php"; //injecter le contenu dans le template > template.php
+ //injecter le contenu dans le template > template.php
+require "view/template.php";

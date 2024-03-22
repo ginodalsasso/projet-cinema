@@ -2,6 +2,7 @@
 <?php ob_start(); ?>
 
 <?php 
+// Récupération des données de l'acteur et de ses films
 $acteur = $requeteActeur->fetch();
 $filmActeur = $requeteFilmActeur->fetchAll();?>
 
@@ -11,8 +12,8 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
     <p>Sexe: <?= $acteur["sexe"]?></p>
 </div>
 
-
-<table>
+<!-- tableau affichant les détails de l'acteur -->
+<table>sgfb
     <thead>
         <tr>
             <th>titre</th>
@@ -40,8 +41,11 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
 
 <?php
 
+// Définition des titres pour la vue
 $titre = "Détail acteurs";
 $titre_secondaire = $acteur["nomActeur"]; //titre variable en fonction de l'acteur
 
 $contenu = ob_get_clean();
-require "view/template.php"; //injecter le contenu dans le template > template.php
+
+//injecter le contenu dans le template > template.php
+require "view/template.php"; 

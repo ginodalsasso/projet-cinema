@@ -2,16 +2,18 @@
 <?php ob_start(); ?>
 
 <?php 
+// Récupération des données du réalisateur et des films réalisés
 $realisateur = $requeteRealisateur->fetch();
 $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
 
+<!-- Affichage des informations sur le réalisateur -->
 <div>
     <img src="<?= $realisateur['photo']?>" alt="photo du réalisateur">
     <p>Date de naissance: <?= $realisateur["dateNaissance"]?></p>
     <p>Sexe: <?= $realisateur["sexe"]?></p>
 </div>
 
-
+<!-- tableau affichant les films réalisés par ce réalisateur -->
 <table>
     <thead>
         <tr>
@@ -36,8 +38,11 @@ $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
 
 <?php
 
+// Définition des titres pour la vue
 $titre = "Détail acteurs";
 $titre_secondaire = $realisateur["nomRealisateur"]; //titre variable en fonction de l'acteur
 
 $contenu = ob_get_clean();
-require "view/template.php"; //injecter le contenu dans le template > template.php
+
+//injecter le contenu dans le template > template.php
+require "view/template.php"; 

@@ -2,8 +2,10 @@
 <?php ob_start(); ?>
 
 <?php 
+// Récupération de tous les genres de films
 $genres = $requeteGenre->fetchAll();?>
 
+<!--tableau affichant les genres de films -->
 <table>
     <thead>
         <tr>
@@ -26,8 +28,10 @@ $genres = $requeteGenre->fetchAll();?>
 
 <?php
 
+// Définition des titres pour la vue
 $titre = "Détail Genre";
 $titre_secondaire = $genre["nom_genre"]; //titre variable en fonction de l'acteur
 
+//injecter le contenu dans le template > template.php
 $contenu = ob_get_clean();
 require "view/template.php"; //injecter le contenu dans le template > template.php
