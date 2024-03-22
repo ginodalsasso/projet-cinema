@@ -155,6 +155,21 @@ class CinemaController {
         require "view/detail/detailFilm.php"; 
     }
 
+/////////DETAILS GENRE
+    public function detailGenre($id){
+        $pdo = Connect::seConnecter();
+        //exécute la requête détail d'un genre
+        $requeteGenre = $pdo->prepare("
+            SELECT f.titre, DATE_FORMAT(parution, '%Y') AS parution, gf.id_genre, g.nom_genre, f.id_film, f.affiche
+            FROM genre_film gf
+            INNER JOIN film f ON gf.id_film = f.id_film
+            INNER JOIN genre g ON gf.id_genre = g.id_genre
+            WHERE gf.id_genre = :id
+        ");
+        $requeteGenre->execute(["id" => $id]);
+        require "view/detail/detailGenre.php"; 
+    }
+
 
     
 
