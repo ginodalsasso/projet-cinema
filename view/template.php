@@ -3,16 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/style.css">
-    <title><?= $titre ?></title> <!--DANS CHAQUE VUE, il faudra toujours donner une valeur à $titre, $contenu et $titre_secondaire -->
+    <script src="https://kit.fontawesome.com/f3340c3342.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="public/css/style.css">
+    <title>
+        <?= $titre ?> <!--DANS CHAQUE VUE, il faudra toujours donner une valeur à $titre, $contenu et $titre_secondaire -->
+    </title> 
 </head>
 <body>
+<!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav_container">
+
+            <!-- <div class="nav_menu"> -->
+                <ul class="nav_list">
+                    <li class="logo"><a href="#" class="nav_logo">TWATCH</a></li>
+                    <input type="checkbox" id="check">
+                    <span class="menu">
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Films</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Réalisateurs</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Acteurs</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Genres</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#conact" class="nav_link">Rôles</a>
+                        </li>
+                        <label for="check" class="close-menu"><i class="fa fa-times"></i></label>
+                    </span>
+                    <label for="check" class="open-menu"><i class="fas fa-bars"></i></label>
+                </ul>
+            <!-- </div> -->
+        </nav>
+    </header>
     <main>
         <div id="contenu">
-            <h1 class="uk-heading-divider">PDO Cinema</h1>
-            <h2 class="uk-heading-bullet"><?= $titre_secondaire ?></h2>
+            <h1>PDO Cinema</h1>
+            <h2><?= $titre_secondaire ?></h2>
             <?= $contenu ?>
         </div>
     </main>
 </body>
+<footer>
+    <ul class="footer_list">
+        <li class="footer_item">
+            <a href="#" class="footer_link">Mentions Légales</a>
+        </li>
+        <li class="footer_item">
+            <a href="#" class="footer_link">Contact</a>
+        </li>
+        <li>
+            <a class="footer_social" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a class="footer_social" href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a class="footer_social" href="#"><i class="fa-brands fa-instagram"></i></a>
+        </li>
+    </ul>
+</footer>
 </html>
