@@ -11,7 +11,7 @@ class CinemaController {
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
         $requeteFilms = $pdo->query("
-            SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, affiche
+            SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, affiche, note
             FROM film
         ");
 

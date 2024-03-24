@@ -2,27 +2,21 @@
 <?php ob_start(); ?>
 
 <!-- Affichage du nombre de films -->
-<p>Il y a <?= $requeteFilms->rowCount() ?> films</p> 
+<p class="count_list">Il y a <?= $requeteFilms->rowCount() ?> films</p> 
 
-<table>
-    <thead>
-        <tr>
-            <th>TITRE</th>
-            <th>ANNEE SORTIE</th>
-            <th>AFFICHE</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-            foreach($requeteFilms->fetchAll() as $film) { ?>
-                <tr>
-                    <td><?= $film["titre"] ?></td>
-                    <td><?= $film["parution"] ?></td>
-                    <td><img src="<?= $film['affiche']?>" alt="affiche du film"></td>
-                </tr>
-            <?php } ?>
-    </tbody>
-</table>
+        <div class="cards_list">
+            <?php
+
+                foreach($requeteFilms->fetchAll() as $film) { ?>
+                        <div class="card_item">
+                            <figure class="fade_card"><img src="<?= $film['affiche']?>" alt="affiche du film"></figure>
+                            <p><?= $film["note"] ?></p>
+                            <p><?= $film["titre"] ?></p>
+                            <p><?= $film["parution"] ?></p>
+                        </div>
+
+                <?php } ?>
+        </div>
 
 <?php
 

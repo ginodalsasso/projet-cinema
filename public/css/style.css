@@ -5,13 +5,16 @@
 /*=============== VARIABLES CSS ===============*/
 :root{
     --bg-colour: #F7F8E8;
+    --font-card-colour: #F7F8E8;
     --group-bg-colour: #E6DAB2;
-    --card-bg-colour: #BEAF79;
-    --font-color: #3E3C3C;
+    /* --card-bg-colour: #BEAF79; */
+    --card-color: #2a2828; 
+    --font-color: #2a2828; 
 
     --body-font: "poppins", sans-serif;
-    --body-font-size: 14px;
-    --h2-font-size: 21px;
+    --body-font-size: 16px;
+    --h2-font-size: 24px;
+    --h3-font-size: 21px;
 }
 
 * {
@@ -22,21 +25,30 @@
 
 body{
     font-family: var(--body-font);
-    background-color: var(--group-bg-colour);
+    background-color: var(--bg-colour);
     color: var(--font-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+ }
+
+ main{
+    flex: 1 0 auto;
  }
 
  img{
-   width: 150px;   /**************************** PROVISOIRE ******************************/
-   filter: sepia(30%);
+   width: 300px;   /**************************** PROVISOIRE ******************************/
+   height: 420px;
+   filter: sepia(50%);
    transition: 0.2s;
+   border-radius: 9px 9px 0 0;
 }
 
  img:hover{
     filter: none;
  }
 
-/*=============== NAV AND FOOTER===============*/
+/*=============== HEADER AND FOOTER===============*/
 .nav_list{
     width: 100%;
     display: flex;
@@ -53,7 +65,7 @@ body{
     font-weight: 800 ;
     font-size: 32px;
     text-decoration: none;
-    color: var(--group-bg-colour);
+    color: var(--bg-colour);
     transition: 0.5s;
 }
 .nav_logo:hover{
@@ -67,7 +79,7 @@ body{
 .menu li a, .footer_list a{
     display: inline-block;
     text-decoration: none;
-    color: var(--group-bg-colour);
+    color: var(--bg-colour);
     font-weight: 500;
     text-align: center;
     transition: 0.15s ease-in-out;
@@ -82,7 +94,7 @@ body{
     left: 0;
     width: 0;
     height: 2px;
-    background-color: var(--group-bg-colour);
+    background-color: var(--bg-colour);
     transition: 0.2s ease-in-out;
 }
 
@@ -90,7 +102,7 @@ body{
 
 .open-menu, .close-menu{
     position: absolute;
-    color: var(--group-bg-colour);
+    color: var(--bg-colour);
     cursor: pointer;
     font-size: 1.5rem;
     display: none;
@@ -122,9 +134,69 @@ body{
 
 .footer_social{
     padding: 0 5px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
+/*========================================= BODY =============================================*/
+
+/*=============== FONT ===============*/
+.count_list{
+    text-align: end;
+    padding-right: 10px;
+}
+
+h1{
+    text-align: center;
+    font-size: 36px;
+    font-weight: 500;
+    padding: 20px;
+}
+
+h2{
+    font-size: var(--h2-font-size);
+    font-weight: 500;
+    padding-left: 10px;
+    margin-bottom: -30px;
+}
+
+h3{
+    font-size: var(--h3-font-size);
+    font-weight: 500;
+    padding-left: 10px;
+}
+
+
+/*=============== CARDS ===============*/
+
+.cards_list{
+    background-color: var(--group-bg-colour);
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 50px;
+}
+
+.card_item{
+    background-color: var(--font-color);
+    padding: 4px;
+    border-radius: 13px;
+}
+
+.card_item p{
+    color: var(--font-card-colour);
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 18px;
+}
+
+.fade_card{
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 70%, transparent 95%);
+}
+
+
+
+/*========================================= MEDIA QUERIES =============================================*/
 @media(max-width:650px){
 
 /*=============== NAV ===============*/
