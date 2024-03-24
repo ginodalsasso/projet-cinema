@@ -28,8 +28,10 @@ if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via 
         case "detailFilm" : $ctrlCinema->detailFilm($id); break;
         case "detailGenre" : $ctrlCinema->detailGenre($id); break;
         case "detailRealisateur" : $ctrlCinema->detailRealisateur($id); break;
-        case "edition" : $ctrlCinema->edition($id); break; 
-        case "addRemove" : $ctrlCinema->addRemove(); break; //pour une suppression, penser à l'id
+        //forms
+        case "addActeur" : $ctrlCinema->addActeur(); break; 
+        case "addFilm" : $ctrlCinema->addFilm(); break;
+        
     }
 };
 

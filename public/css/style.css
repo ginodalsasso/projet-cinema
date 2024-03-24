@@ -28,6 +28,12 @@ body{
 
  img{
    width: 150px;   /**************************** PROVISOIRE ******************************/
+   filter: sepia(30%);
+   transition: 0.2s;
+}
+
+ img:hover{
+    filter: none;
  }
 
 /*=============== NAV AND FOOTER===============*/
@@ -116,7 +122,7 @@ body{
 
 .footer_social{
     padding: 0 5px;
-    font-size: 1,5rem;
+    font-size: 1.4rem;
 }
 
 @media(max-width:650px){
