@@ -133,7 +133,7 @@ body{
 }
 
 .footer_social{
-    padding: 0 5px;
+    padding: 0 1;
     font-size: 1.2rem;
 }
 
@@ -156,7 +156,7 @@ h2{
     font-size: var(--h2-font-size);
     font-weight: 500;
     padding-left: 10px;
-    margin-bottom: -30px;
+    /* margin-bottom: 30px; */
 }
 
 h3{
@@ -173,25 +173,26 @@ h3{
 
 .more_btn{
     font-size: var(--body-font-size);
-    color: var(--bg-colour);
     border: 2px solid var(--font-color);
-    border-radius: 13px;
+    border-radius: 10px;
     text-align: center;
     padding: 10px 18px;
-    margin: 20px 0 80px 0;;
-    background-color: var(--font-color);
+    margin: 20px 0 80px 0;
+    background-color: var(--bg-colour);
     display: inline-block;
     cursor: pointer;
 }
 
-.more_btn a, .more_btn a:visited{
+.more_btn a{
     text-decoration: none;
-    color: var(--bg-colour);
 }
 
-.more_btn:hover, .more_btn a:visited{
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.3);
+.more_btn:hover, .more_btn a:hover:visited{
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+    color: var(--bg-colour);
+    background-color: var(--font-color);
 }
+
 
 /*=============== CARDS ===============*/
 

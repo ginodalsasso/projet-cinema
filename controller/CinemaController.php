@@ -226,6 +226,35 @@ class CinemaController {
         require "view/detail/detailGenre.php"; 
     }
 
+/////////AJOUT DU GENRE
+    public function addGenre(){
+        $pdo = Connect::seConnecter();
+        //exécute la requête d'ajout d'un genre
+        $addGenre = $pdo->prepare("
+            INSERT into genre(nom_genre) VALUES(:nom_genre)
+        ");
+        $addGenre->execute(["nom_genre" => $nomGenre]);
+        require "view/forms/addGenre.php";
+    }
+
+    // public function traitementGenre(){
+
+    //     if(isset($_POST['submit'])){
+    //         $nomGenre= filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    //         if($nomGenre){
+    //             $genreAdded->addGenre($nomGenre);
+
+    //             $_SESSION['messages'][] = "Le Genre $nomGenre vient d'être ajouté !";
+                
+    //             $idGenre = $pdo->lastInsertId();
+    //             //message lors de l'ajout d'un genre et redirection vers la page du nouveau genre
+    //             header(""); die;
+               
+    //         } else{
+    //             header("Location:index.php");
+    //         }
+    //     }
+    // }
 
 
 
