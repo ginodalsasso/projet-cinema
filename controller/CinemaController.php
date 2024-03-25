@@ -208,11 +208,12 @@ class CinemaController {
     public function detailGenre($id){
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un genre
-        $requetDetailGenre = $pdo->prepare("   
+        $requeteDetailGenre = $pdo->prepare("   
             SELECT  g.id_genre, g.nom_genre
             FROM genre g
             WHERE g.id_genre = :id
             ");
+        $requeteDetailGenre->execute(["id" => $id]);
 
         $requeteGenre = $pdo->prepare("
             SELECT f.titre, DATE_FORMAT(parution, '%Y') AS parution, gf.id_genre, g.nom_genre, f.id_film, f.affiche

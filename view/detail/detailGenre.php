@@ -3,7 +3,7 @@
 
 <?php 
 // Récupération de tous les genres de films
-$genreDetail = $requetDetailGenre->fetch();
+$detailGenre = $requeteDetailGenre->fetch();
 $genres = $requeteGenre->fetchAll();?>
 
 <!--tableau affichant les genres de films -->
@@ -34,7 +34,7 @@ $genres = $requeteGenre->fetchAll();?>
 
 // Définition des titres pour la vue
 $titre = "Détail Genre";
-$titre_secondaire = var_dump($genreDetail)["nom_genre"]; //titre variable en fonction de l'acteur
+$titre_secondaire = $detailGenre["nom_genre"]; //titre variable en fonction de l'acteur
 
 //injecter le contenu dans le template > template.php
 $contenu = ob_get_clean();

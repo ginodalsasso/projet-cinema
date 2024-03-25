@@ -2,30 +2,21 @@
 <?php ob_start(); ?>
 
 <!-- Affichage du nombre de réalisateurs -->
-<p>Il y a <?= $requeteRealisateurs->rowCount() ?> réalisateurs</p> 
+<p class="count_list">Il y a <?= $requeteRealisateurs->rowCount() ?> réalisateurs</p> 
 
-<table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>Réalisateurs</th>
-            <th>Photo</th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="cards_list">
         <?php
             foreach($requeteRealisateurs->fetchAll() as $realisateur) { ?>
-                <tr>
-                    <td><?= $realisateur["id_realisateur"] ?></td>
-                    <td><?= $realisateur["nomRealisateur"] ?></td>
-                    <td>
-                        <a href="index.php?action=detailRealisateur&id=<?= $realisateur["id_realisateur"] ?>">
-                        <img src="<?= $realisateur['photo']?>" alt="photo du réalisateur"></a>
-                    </td>
-                </tr>
+                <div class="card_item">
+                    <a href="index.php?action=detailRealisateur&id=<?= $realisateur["id_realisateur"] ?>">
+                        <figure class="fade_card">
+                            <img src="<?= $realisateur['photo']?>" alt="photo du réalisateur">
+                        </figure>
+                    </a>
+                    <p><?= $realisateur["nomRealisateur"] ?></p>
+                </div>
+
             <?php } ?>
-    </tbody>
-</table>
 
 <?php
 

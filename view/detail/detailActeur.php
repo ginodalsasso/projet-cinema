@@ -13,7 +13,7 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
 </div>
 
 <!-- tableau affichant les détails de l'acteur -->
-<table>sgfb
+<table>
     <thead>
         <tr>
             <th>titre</th>

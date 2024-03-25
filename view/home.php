@@ -38,11 +38,11 @@
         
         <div class="btn_display">
                 <button class="more_btn" type="button">
-                        <a href="index.php?action=listFilms">En savoir plus</a>
+                        <a href="index.php?action=listActeurs">En savoir plus</a>
                 </button>
         </div>
-        <!---------------------------- REALISATEURS --------------------------------->
 
+        <!---------------------------- REALISATEURS --------------------------------->
         <div class="cards_list">
                 <?php
                 foreach($requeteRealisateursHome->fetchAll() as $realisateur) { ?>
@@ -57,12 +57,11 @@
         
         <div class="btn_display">
                 <button class="more_btn" type="button">
-                        <a href="index.php?action=listFilms">En savoir plus</a>
+                        <a href="index.php?action=listRealisateurs">En savoir plus</a>
                 </button>
         </div>
 
         <!---------------------------- GENRES --------------------------------->
-
         <div class="cards_list">
                 <?php
                 foreach($requeteGenresHome->fetchAll() as $genre) { ?>
@@ -78,11 +77,11 @@
 
         <div class="btn_display">
                 <button class="more_btn" type="button">
-                        <a href="index.php?action=listFilms">En savoir plus</a>
+                        <a href="index.php?action=listGenres">En savoir plus</a>
                 </button>
         </div>
+        
         <!---------------------------- ROLES --------------------------------->
-
         <div class="cards_list">
                 <?php
                 foreach($requeteRolesHome->fetchAll() as $role) { ?>
@@ -99,7 +98,7 @@
 
         <div class="btn_display">
                 <button class="more_btn" type="button">
-                        <a href="index.php?action=listFilms">En savoir plus</a>
+                        <a href="index.php?action=listRoles">En savoir plus</a>
                 </button>
         </div>
 <?php

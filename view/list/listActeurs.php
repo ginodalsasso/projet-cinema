@@ -1,30 +1,23 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
-<!-- Affichage du nombre d'Acteurs -->
-<p>Il y a <?= $requeteActeurs->rowCount() ?> acteurs</p> 
 
-<table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>Acteurs</th>
-            <th>Photos</th>
-        </tr>
-    </thead>
-    <tbody>
+<!-- Affichage du nombre d'Acteurs -->
+<p class="count_list">Il y a <?= $requeteActeurs->rowCount() ?> acteurs</p> 
+
+    <div class="cards_list">
         <?php
             foreach($requeteActeurs->fetchAll() as $acteur) { ?>
-                <tr>
-                    <td><?= $acteur["id_acteur"] ?></td>
-                    <td><?= $acteur["nomActeur"] ?></td>
-                    <td>
+                    <div class="card_item">
                         <a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>">
-                        <img src="<?= $acteur['photo']?>" alt="photo de l'acteur"></a>
-                    </td>
-                </tr>
+                            <figure class="fade_card">
+                                <img src="<?= $acteur['photo']?>" alt="photo de l'acteur">
+                            </figure>
+                        </a>
+                        <p><?= $acteur["nomActeur"] ?></p>
+                    </div>
+
             <?php } ?>
-    </tbody>
-</table>
+    </div>
 
 <?php
 

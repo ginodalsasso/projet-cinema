@@ -32,6 +32,7 @@ if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via 
         //forms
         case "addActeur" : $ctrlCinema->addActeur(); break; 
         case "addFilm" : $ctrlCinema->addFilm(); break;
+        case "addGenre" : $ctrlCinema->addGenre(); break;
         
     }
 };

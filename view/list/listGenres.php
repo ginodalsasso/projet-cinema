@@ -2,30 +2,23 @@
 <?php ob_start(); ?>
 
 <!-- Affichage du nombre de genres -->
-<p>Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
+<p class="count_list">Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
 
-<table>
-    <thead>
-        <tr>
-            <th>titre</th>
-            <th>Genre</th>
-            <th>Afficher</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="cards_list">
+
         <?php
             foreach($requeteGenres->fetchAll() as $genre) { ?>
-                <tr>
-                    <td><?= $genre["titre"] ?></td>
-                    <td><?= $genre["nom_genre"] ?></td>
-                    <td>
-                        <a href="index.php?action=detailFilm&id=<?= $genre["id_film"] ?>">
-                        <img src="<?= $genre['affiche']?>" alt="affiche du film"></a>
-                    </td>
-                </tr>
+                    <div class="card_item">
+                            <a href="index.php?action=detailFilm&id=<?= $genre["id_film"] ?>">
+                                <figure class="fade_card">
+                                    <img src="<?= $genre['affiche']?>" alt="affiche du film">
+                                </figure>
+                            </a>
+                        <p><?= $genre["titre"] ?></p>
+                        <p><?= $genre["nom_genre"] ?></p>
+                    </div>
+                    
             <?php } ?>
-    </tbody>
-</table>
 
 <?php
 

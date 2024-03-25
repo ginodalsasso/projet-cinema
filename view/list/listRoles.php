@@ -2,36 +2,23 @@
 <?php ob_start(); ?>
 
 <!-- Affichage du nombre de rôles -->
-<p>Il y a <?= $requeteRoles->rowCount() ?> Rôles</p> 
+<p class="count_list">Il y a <?= $requeteRoles->rowCount() ?> Rôles</p> 
 
-<table>
-    <thead>
-        <tr>
-            <th>id_personnes</th>
-            <th>id_acteurs</th>
-            <th>acteurs</th>
-            <th>rôles</th>
-            <th>films</th>
-            <th>photo</th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="cards_list">
         <?php
             foreach($requeteRoles->fetchAll() as $role) { ?>
-                <tr>
-                    <td><?= $role["id_acteur"] ?></td>
-                    <td><?= $role["id_personne"] ?></td>
-                    <td><?= $role["acteurs"] ?></td>
-                    <td><?= $role["role_personnage"] ?></td>
-                    <td><?= $role["titre"] ?></td>
-                    <td>
+                    <div class="card_item">
                         <a href="index.php?action=detailActeur&id=<?= $role["id_acteur"] ?>">
-                        <img src="<?= $role['photo']?>" alt="photo de l'acteur"></a>
-                    </td>
-                </tr>
+                            <figure class="fade_card">
+                                <img src="<?= $role['photo']?>" alt="photo de l'acteur">
+                            </figure>
+                        </a>
+                        <p><?= $role["acteurs"] ?></p>
+                        <p><?= "(Rôle: " . $role["role_personnage"] . ")"?></p>
+                        <p><?= $role["titre"] ?></p>
+            </div>
+
             <?php } ?>
-    </tbody>
-</table>
 
 <?php
 
