@@ -33,7 +33,10 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
                     <td><?= $film["role_personnage"] ?></td>
                     <td><?= $film["id_film"] ?></td>
                     <td><?= $film["id_role"] ?></td>
-                    <td><img src="<?= $film['affiche']?>" alt="affiche du film"></td>
+                    <td>
+                        <a href="http://localhost/projet-cinema/index.php?action=detailFilm&id=<?= $film["id_film"] ?>">
+                        <img src="<?= $film['affiche']?>" alt="affiche du film"></a>
+                    </td>
                 </tr>
             <?php } ?>
     </tbody>

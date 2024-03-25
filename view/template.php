@@ -14,23 +14,23 @@
     <header class="header" id="header">
         <nav class="nav_container">
             <ul class="nav_list">
-                <li class="logo"><a href="#" class="nav_logo">TWATCH</a></li>
+                <li class="logo"><a href="/projet-cinema/index.php?action=home" class="nav_logo">TWATCH</a></li>
                 <input type="checkbox" id="check">
                 <span class="menu">
                     <li class="nav_item">
-                        <a href="#" class="nav_link">Films</a>
+                        <a href="/projet-cinema/index.php?action=listFilms" class="nav_link">Films</a>
                     </li>
                     <li class="nav_item">
-                        <a href="#" class="nav_link">Réalisateurs</a>
+                        <a href="/projet-cinema/index.php?action=listRealisateurs" class="nav_link">Réalisateurs</a>
                     </li>
                     <li class="nav_item">
-                        <a href="#" class="nav_link">Acteurs</a>
+                        <a href="/projet-cinema/index.php?action=listActeurs" class="nav_link">Acteurs</a>
                     </li>
                     <li class="nav_item">
-                        <a href="#" class="nav_link">Genres</a>
+                        <a href="/projet-cinema/index.php?action=listGenres" class="nav_link">Genres</a>
                     </li>
                     <li class="nav_item">
-                        <a href="#conact" class="nav_link">Rôles</a>
+                        <a href="/projet-cinema/index.php?action=listRoles" class="nav_link">Rôles</a>
                     </li>
                     <label for="check" class="close-menu"><i class="fa fa-times"></i></label>
                 </span>

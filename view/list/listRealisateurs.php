@@ -18,7 +18,10 @@
                 <tr>
                     <td><?= $realisateur["id_realisateur"] ?></td>
                     <td><?= $realisateur["nomRealisateur"] ?></td>
-                    <td><img src="<?= $realisateur['photo']?>" alt="photo du réalisateur"></td>
+                    <td>
+                        <a href="http://localhost/projet-cinema/index.php?action=detailRealisateur&id=<?= $realisateur["id_realisateur"] ?>">
+                        <img src="<?= $realisateur['photo']?>" alt="photo du réalisateur"></a>
+                    </td>
                 </tr>
             <?php } ?>
     </tbody>

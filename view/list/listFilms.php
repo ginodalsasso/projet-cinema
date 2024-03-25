@@ -9,7 +9,7 @@
 
                 foreach($requeteFilms->fetchAll() as $film) { ?>
                         <div class="card_item">
-                            <figure class="fade_card"><img src="<?= $film['affiche']?>" alt="affiche du film"></figure>
+                            <a href="http://localhost/projet-cinema/index.php?action=detailFilm&id=<?= $film["id_film"] ?>"><figure class="fade_card"><img src="<?= $film['affiche']?>" alt="affiche du film"></figure></a>
                             <p><?= $film["note"] ?></p>
                             <p><?= $film["titre"] ?></p>
                             <p><?= $film["parution"] ?></p>
