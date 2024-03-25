@@ -37,7 +37,7 @@ $castings = $requeteCasting->fetchAll();?>
                     <td><?= $casting["role_personnage"] ?></td>
                     <td><?= $casting["id_role"] ?></td>
                     <td>
-                        <a href="http://localhost/projet-cinema/index.php?action=detailActeur&id=<?= $casting["id_acteur"] ?>">
+                        <a href="index.php?action=detailActeur&id=<?= $casting["id_acteur"] ?>">
                         <img src="<?= $casting['photo']?>" alt="affiche de l'acteur"></a>
                     </td>
                 </tr>

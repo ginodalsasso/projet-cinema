@@ -19,7 +19,7 @@ $genres = $requeteGenre->fetchAll();?>
             foreach($genres as $genre) { ?>
                 <tr>
                     <td>
-                        <a href="http://localhost/projet-cinema/index.php?action=detailFilm&id=<?= $genre["id_film"] ?>">
+                        <a href="index.php?action=detailFilm&id=<?= $genre["id_film"] ?>">
                         <img src="<?= $genre['affiche']?>" alt="affiche du film"></a>
                     </td>
                     <td><?= $genre["titre"] ?></td>

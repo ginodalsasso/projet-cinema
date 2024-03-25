@@ -25,7 +25,7 @@
                     <td><?= $role["role_personnage"] ?></td>
                     <td><?= $role["titre"] ?></td>
                     <td>
-                        <a href="http://localhost/projet-cinema/index.php?action=detailActeur&id=<?= $role["id_acteur"] ?>">
+                        <a href="index.php?action=detailActeur&id=<?= $role["id_acteur"] ?>">
                         <img src="<?= $role['photo']?>" alt="photo de l'acteur"></a>
                     </td>
                 </tr>

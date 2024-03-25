@@ -4,7 +4,8 @@ use Controller\CinemaController; //"use" le controller Cinema
 
 
 spl_autoload_register(function ($class_name) { //n autocharge les classes du projet
-    include $class_name . '.php';
+    require str_replace("\\", DIRECTORY_SEPARATOR, $class_name) . '.php'; 
+    // include $class_name . '.php';
 });
 
 $ctrlCinema = new CinemaController(); //instance le controller Cinema

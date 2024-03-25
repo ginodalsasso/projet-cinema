@@ -131,7 +131,7 @@ class CinemaController {
 
 /////////DETAILS FILM
     public function detailFilm($id){
-        $pdo = Connect::seConnecter();
+        var_dump($pdo = Connect::seConnecter());
         //exécute la requête détail d'un film
         $requeteFilm = $pdo->prepare("
             SELECT f.affiche, f.titre, DATE_FORMAT(parution, '%d %m %Y') AS parution, f.duree, f.note, CONCAT(prenom, ' ', nom) AS nom_realisateur

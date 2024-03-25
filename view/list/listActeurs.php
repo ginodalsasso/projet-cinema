@@ -18,7 +18,7 @@
                     <td><?= $acteur["id_acteur"] ?></td>
                     <td><?= $acteur["nomActeur"] ?></td>
                     <td>
-                        <a href="http://localhost/projet-cinema/index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>">
+                        <a href="index.php?action=detailActeur&id=<?= $acteur["id_acteur"] ?>">
                         <img src="<?= $acteur['photo']?>" alt="photo de l'acteur"></a>
                     </td>
                 </tr>

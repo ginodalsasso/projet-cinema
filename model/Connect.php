@@ -3,7 +3,7 @@
 namespace Model;
 
 abstract class Connect {
-    const HOST = "localhost";
+    const HOST = "db";
     const DB = "cinema_gino";
     const USER = "root";
     const PASS = "";
@@ -11,7 +11,11 @@ abstract class Connect {
     public static function seConnecter() {
         try {
             return new \PDO(
-                "mysql:host=".self::HOST.";dbname=".self::DB.";charset=utf8", self::USER, self::PASS);
+                "mysql:host=". self::HOST .";dbname=". self::DB,
+                self::USER, 
+                self::PASS
+            );
+
         } catch(\PDOException $ex){
             return $ex->getMessage();
         }
