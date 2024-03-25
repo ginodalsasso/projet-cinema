@@ -17,7 +17,7 @@ $id= (isset($_GET["id"])) ? $_GET["id"] : null;
 if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller
     switch ($_GET["action"]){
 
-        case "home" : $ctrlCinema->home(); break;
+        case "home" : $ctrlCinema->listHome(); break;
         //list
         case "listActeurs" : $ctrlCinema->listActeurs(); break;
         case "listFilms" : $ctrlCinema->listFilms(); break;

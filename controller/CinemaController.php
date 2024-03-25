@@ -6,6 +6,55 @@ use Model\Connect; //"use" pour accéder à la classe Connect
 
 class CinemaController {
 
+
+
+/////////HOME
+    public function listHome(){
+        $pdo = Connect::seConnecter();
+        //exécute la requête de notre choix
+        $requeteFilmsHome = $pdo->query("
+            SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, affiche, note, id_film
+            FROM film
+            LIMIT 3
+        ");
+
+        $requeteActeursHome = $pdo->query("
+            SELECT CONCAT(prenom,' ',nom) AS nomActeur, id_acteur, photo
+            FROM personne p
+            INNER JOIN acteur a ON p.id_personne = a.id_personne
+            ORDER BY nom
+            LIMIT 6
+    ");
+        $requeteRealisateursHome = $pdo->query("
+            SELECT CONCAT(prenom,' ',nom) AS nomRealisateur, id_realisateur, photo
+            FROM personne p
+            INNER JOIN realisateur r ON p.id_personne = r.id_personne
+            ORDER BY nom
+            LIMIT 6
+    ");
+        $requeteGenresHome = $pdo->query("
+            SELECT titre, GROUP_CONCAT(g.nom_genre SEPARATOR ', ') AS nom_genre, affiche, f.id_film
+            FROM  genre_film gf
+            INNER JOIN genre g ON gf.id_genre = g.id_genre
+            INNER JOIN film f ON gf.id_film = f.id_film
+            GROUP BY f.id_film
+            ORDER BY nom_genre ASC
+            LIMIT 3
+    ");
+        $requeteRolesHome = $pdo->query("
+            SELECT p.id_personne, a.id_acteur, CONCAT(prenom,' ', nom) AS acteurs, role_personnage, titre, photo
+            FROM film f
+            INNER JOIN casting c ON f.id_film = c.id_film
+            INNER JOIN acteur a ON c.id_acteur = a.id_acteur
+            INNER JOIN personne p ON a.id_personne = p.id_personne
+            INNER JOIN role r ON c.id_role = r.id_role  
+            LIMIT 3
+    ");
+
+        require "view/home.php"; //relie par un "require" la vue qui nous intéresse (située dans le dossier "view")
+    }
+
+
 /////////LIST FILMS
     public function listFilms(){
         $pdo = Connect::seConnecter();
@@ -131,7 +180,7 @@ class CinemaController {
 
 /////////DETAILS FILM
     public function detailFilm($id){
-        var_dump($pdo = Connect::seConnecter());
+        $pdo = Connect::seConnecter();
         //exécute la requête détail d'un film
         $requeteFilm = $pdo->prepare("
             SELECT f.affiche, f.titre, DATE_FORMAT(parution, '%d %m %Y') AS parution, f.duree, f.note, CONCAT(prenom, ' ', nom) AS nom_realisateur
@@ -159,6 +208,12 @@ class CinemaController {
     public function detailGenre($id){
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un genre
+        $requetDetailGenre = $pdo->prepare("   
+            SELECT  g.id_genre, g.nom_genre
+            FROM genre g
+            WHERE g.id_genre = :id
+            ");
+
         $requeteGenre = $pdo->prepare("
             SELECT f.titre, DATE_FORMAT(parution, '%Y') AS parution, gf.id_genre, g.nom_genre, f.id_film, f.affiche
             FROM genre_film gf
@@ -169,9 +224,6 @@ class CinemaController {
         $requeteGenre->execute(["id" => $id]);
         require "view/detail/detailGenre.php"; 
     }
-
-
-/////////ADD ACTEUR
 
 
 

@@ -165,6 +165,33 @@ h3{
     padding-left: 10px;
 }
 
+/*=============== BUTTON ===============*/
+.btn_display{
+    display: flex;
+    justify-content: center;
+}
+
+.more_btn{
+    font-size: var(--body-font-size);
+    color: var(--bg-colour);
+    border: 2px solid var(--font-color);
+    border-radius: 13px;
+    text-align: center;
+    padding: 10px 18px;
+    margin: 20px 0 80px 0;;
+    background-color: var(--font-color);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.more_btn a, .more_btn a:visited{
+    text-decoration: none;
+    color: var(--bg-colour);
+}
+
+.more_btn:hover, .more_btn a:visited{
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+}
 
 /*=============== CARDS ===============*/
 

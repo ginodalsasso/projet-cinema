@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/f3340c3342.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="public/css/style.css">
+    <!-- DANS CHAQUE VUE, il faudra toujours donner une valeur à $titre, $contenu et $titre_secondaire -->
     <title>
-        <?= $titre ?> <!--DANS CHAQUE VUE, il faudra toujours donner une valeur à $titre, $contenu et $titre_secondaire -->
+        <?= $titre ?> 
     </title> 
 </head>
 <body>
