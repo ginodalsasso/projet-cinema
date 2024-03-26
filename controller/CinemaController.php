@@ -8,7 +8,7 @@ class CinemaController {
 
 
 
-/////////HOME
+///////////////////////////////////////////////////////HOME
     public function listHome(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
@@ -55,7 +55,7 @@ class CinemaController {
     }
 
 
-/////////LIST FILMS
+///////////////////////////////////////////////////////LIST FILMS
     public function listFilms(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
@@ -67,7 +67,7 @@ class CinemaController {
         require "view/list/listFilms.php"; //relie par un "require" la vue qui nous intéresse (située dans le dossier "view")
     }
 
-/////////LIST ACTEURS
+///////////////////////////////////////////////////////LIST ACTEURS
     public function listActeurs(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
@@ -81,7 +81,7 @@ class CinemaController {
         require "view/list/listActeurs.php"; 
     }
 
-/////////LIST GENRES
+///////////////////////////////////////////////////////LIST GENRES
     public function listGenres(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
@@ -97,7 +97,7 @@ class CinemaController {
         require "view/list/listGenres.php"; 
     }
 
-/////////LIST REALISATEURS
+///////////////////////////////////////////////////////LIST REALISATEURS
     public function listRealisateurs(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
@@ -111,7 +111,7 @@ class CinemaController {
         require "view/list/listRealisateurs.php"; 
     }
 
-/////////LIST ROLES
+///////////////////////////////////////////////////////LIST ROLES
     public function listRoles(){
         $pdo = Connect::seConnecter();
         //exécute la requête de notre choix
@@ -128,7 +128,7 @@ class CinemaController {
     }
 
 
-/////////DETAILS ACTEUR
+///////////////////////////////////////////////////////DETAILS ACTEUR
     public function detailActeur($id){
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un acteur
@@ -153,7 +153,7 @@ class CinemaController {
         require "view/detail/detailActeur.php"; 
     }
 
-/////////DETAILS REALISATEUR
+///////////////////////////////////////////////////////DETAILS REALISATEUR
     public function detailRealisateur($id){
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un réalisateur
@@ -178,7 +178,7 @@ class CinemaController {
         require "view/detail/detailRealisateur.php"; 
     }
 
-/////////DETAILS FILM
+///////////////////////////////////////////////////////DETAILS FILM
     public function detailFilm($id){
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un film
@@ -204,7 +204,7 @@ class CinemaController {
         require "view/detail/detailFilm.php"; 
     }
 
-/////////DETAILS GENRE
+///////////////////////////////////////////////////////DETAILS GENRE
     public function detailGenre($id){
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un genre
@@ -226,7 +226,7 @@ class CinemaController {
         require "view/detail/detailGenre.php"; 
     }
 
-/////////AJOUT DU GENRE
+///////////////////////////////////////////////////////AJOUT DU GENRE
     public function addGenre(){
         $pdo = Connect::seConnecter();
         
@@ -258,7 +258,7 @@ class CinemaController {
     }
 
 
-/////////AJOUT DU ROLE
+///////////////////////////////////////////////////////AJOUT DU ROLE
     public function addRole(){
         $pdo = Connect::seConnecter();
         
@@ -290,7 +290,7 @@ class CinemaController {
     }
 
 
-///////////AJOUT D'UN ACTEUR
+///////////////////////////////////////////////////////AJOUT D'UN ACTEUR
     public function addActeur(){
         $pdo = Connect::seConnecter();
         
@@ -369,7 +369,7 @@ class CinemaController {
         require "view/forms/addActeur.php";
     }
 
-///////////AJOUT D'UN REALISATEUR
+///////////////////////////////////////////////////////AJOUT D'UN REALISATEUR
     public function addRealisateur(){
         $pdo = Connect::seConnecter();
         
@@ -446,5 +446,118 @@ class CinemaController {
             }
         }
         require "view/forms/addRealisateur.php";
+    }
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////AJOUT D'UN FILM
+    public function addFilm(){
+        $pdo = Connect::seConnecter();
+        
+        if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $titreFilm = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $parutionFilm = filter_input(INPUT_POST, "parution", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $dureeFilm = filter_input(INPUT_POST, "duree",  FILTER_VALIDATE_INT);
+            $noteFilm = filter_input(INPUT_POST, "note", FILTER_VALIDATE_INT);
+            $synopsisFilm = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            // $genreFilm = filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $realisateurFilm = filter_input(INPUT_POST, "id_realisateur", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            ///////GESTION DE L'UPLOAD D'IMAGE
+            if(isset($_FILES['file'])){
+                // infos image
+                $tmpName = $_FILES['file']['tmp_name'];
+                $name = $_FILES['file']['name'];
+                $size = $_FILES['file']['size'];
+                $error = $_FILES['file']['error'];
+
+                //dossier de destination
+                $uploadBDD = 'public/img/personnes/';
+
+                $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
+                $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+                $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
+                $maxSize = 400000; 
+
+                if($titreFilm && $parutionFilm && $dureeFilm && $noteFilm && $synopsisFilm && $genreFilm && $realisateurFilm){
+                    // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                    if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                        //pour ne pas écraser deux images ayant le même nom
+                        $uniqueName = uniqid('', true);
+                        //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                        $file = $uniqueName.".".$extension;
+                        //$file = 5f586bf96dcd38.73540086.jpg
+                        move_uploaded_file($tmpName, $uploadBDD . $file);
+                    }
+                    else{
+                        echo "Mauvaise extension ou taille de l'image trop lourde !";
+                        exit;
+                    }
+                    //exécute la requête d'ajout d'un acteur dans personne
+                    $addFilm = $pdo->prepare("
+                        INSERT INTO film(titre, parution, duree, synopsis, note, affiche, id_realisateur) 
+                        VALUES(:titre, :parution, :duree, :synopsis, :note, :affiche, :id_realisateur)
+                    ");
+                    $addFilm->execute(["titre" => $titreFilm,
+                                        "parution" => $parutionFilm,
+                                        "duree" => $dureeFilm,
+                                        "synopsis" => $synopsisFilm,
+                                        "note" => $noteFilm,
+                                        "affiche" => $uploadBDD . $file,
+                                        "id_realisateur" => $realisateurFilm]);
+
+                    //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans film
+                    $idFilm=$pdo->lastInsertId();
+
+                    // choix du réalisateur
+                    $choixRealisateur = $pdo->prepare("
+                        SELECT concat(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
+                        FROM realisateur r
+                        INNER JOIN personne p ON r.id_personne = p.id_personne
+                        ORDER BY p.nom");
+                    $choixRealisateur->execute();
+                    
+                    // choix du genre
+                    $choixGenre = $pdo->prepare("
+                        SELECT * from genre ORDER BY nom_genre");
+                    $choixGenre->execute();
+                    
+                    // boucle pour ajouter les genres sélectionnés.
+                    foreach ($_POST['genres'] as $genreFilm) {
+
+                        $genreFilm = filter_var($genreFilm, FILTER_VALIDATE_INT);
+
+                        if ($genreFilm) {
+                            $requeteAddGenre = $pdo->prepare("
+                                INSERT INTO genre_film (id_film, id_genre)
+                                VALUES (:id_film, :id_genre)
+                            ");
+
+                            $requeteAddGenre->execute(["id_film" => $idFilm,
+                                                      "id_genre" => $genreFilm]);
+                        }
+                    }
+                
+                    // message lors de l'ajout d'un film
+                    $_SESSION['message'] = "<p>Le film $titreFilm vient d'être ajouté !</p>";
+                    
+                    // redirection vers la page liste realisateur
+                    header("Location: index.php?action=listFilms"); 
+                    exit;
+                } 
+                else { // sinon message de prévention et redirection
+                    $_SESSION['message'] = "<p>Le film n'a pas été enregistré !</p>";
+                    header("Location: index.php?action=addFilm");
+                    exit;
+                }
+            }
+        }
+        require "view/forms/addFilm.php";
     }
 }
