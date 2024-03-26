@@ -242,7 +242,7 @@ class CinemaController {
                 $addGenre->execute(["nom_genre" => $nomGenre]);
     
                 // message lors de l'ajout d'un genre
-                $_SESSION['message'] []= "<p>Le Genre $nomGenre vient d'être ajouté !</p>";
+                $_SESSION['message'] = "<p>Le Genre $nomGenre vient d'être ajouté !</p>";
                 
                 // redirection vers la page du nouveau genre
                 header("Location: index.php?action=addGenre"); 
@@ -274,7 +274,7 @@ class CinemaController {
                 $addRole->execute(["role_personnage" => $nomRole]);
     
                 // message lors de l'ajout d'un genre
-                $_SESSION['message'] []= "<p>Le rôle de $nomRole vient d'être ajouté !</p>";
+                $_SESSION['message'] = "<p>Le rôle de $nomRole vient d'être ajouté !</p>";
                 
                 // redirection vers la page du nouveau genre
                 header("Location: index.php?action=addRole"); 
@@ -290,84 +290,161 @@ class CinemaController {
     }
 
 
-// /////////AJOUT D'UN ACTEUR
+///////////AJOUT D'UN ACTEUR
     public function addActeur(){
         $pdo = Connect::seConnecter();
         
-        if(isset($_POST['submit']) && isset($_FILES['file'])){
+        if(isset($_POST['submit'])){
             // filtre la valeur insérée dans le formulaire
             $nomActeur = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $prenomActeur = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $sexeActeur = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $dateActeur = filter_input(INPUT_POST, "dateNaissance", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            
-            if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
-/////////////////GESTION DE L'UPLOAD D'IMAGE
+
+            ///////GESTION DE L'UPLOAD D'IMAGE
+            if(isset($_FILES['file'])){
+                // infos image
                 $tmpName = $_FILES['file']['tmp_name'];
                 $name = $_FILES['file']['name'];
                 $size = $_FILES['file']['size'];
                 $error = $_FILES['file']['error'];
 
-                // selectionne le dossier de destination
-                move_uploaded_file($tmpName, './public/img/personnes/'.$name);
+                //dossier de destination
+                $uploadBDD = 'public/img/personnes/';
 
-                //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
-                $tabExtension = explode('.', $name);
+                $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
                 $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+                $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
+                $maxSize = 400000; 
 
-                $extensions = ['jpg', 'png', 'jpeg', 'webpg'];
-                $tailleMax = 400000;  
-
-                // si l'extension est dans le tableau des extensions autorisées que la taill est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
-                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-                    //pour ne pas écraser deux images ayant le même nom
-                    $uniqueName = uniqid('', true);
-                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                    $file = $uniqueName.".".$extension;
-                    //$file = 5f586bf96dcd38.73540086.jpg
-                    move_uploaded_file($tmpName, './upload/'.$name);
-
-                    //exécute la requête d'ajout d'un acteur
+                if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
+                    // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                    if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                        //pour ne pas écraser deux images ayant le même nom
+                        $uniqueName = uniqid('', true);
+                        //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                        $file = $uniqueName.".".$extension;
+                        //$file = 5f586bf96dcd38.73540086.jpg
+                        move_uploaded_file($tmpName, $uploadBDD . $file);
+                    }
+                    else{
+                        echo "Mauvaise extension ou taille de l'image trop lourde !";
+                        exit;
+                    }
+                    //exécute la requête d'ajout d'un acteur dans personne
                     $addActeur = $pdo->prepare("
                         INSERT INTO personne(nom, prenom, sexe, dateNaissance, photo) 
                         VALUES(:nom, :prenom, :sexe, :dateNaissance, :photo)
-                            ");
+                    ");
                     $addActeur->execute(["nom" => $nomActeur,
                                         "prenom" => $prenomActeur,
                                         "sexe" => $sexeActeur,
                                         "dateNaissance" => $dateActeur,
-                                        "photo => $photo"]);
-                        }
-                else{
-                    echo "Mauvaise extension ou taille de l'image trop lourde !";
-                }
+                                        "photo" => $uploadBDD . $file]);
 
-                // message lors de l'ajout d'un acteur
-                $_SESSION['message'] []= "<p>L'acteur' $nomActeur vient d'être ajouté !</p>";
+                    //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans personne
+                    $idPersonne=$pdo->lastInsertId();
+
+                    //exécute la requête d'ajout d'un acteur
+                    $addIdActeur = $pdo->prepare("
+                        INSERT INTO acteur (id_personne) 
+                        VALUES (:id_personne)
+                    ");
+                    $addIdActeur->execute(["id_personne" => $idPersonne]);
                 
-                // redirection vers la page du nouvel acteur
-                header("Location: index.php?action=addActeur"); 
-                exit;
-            } 
-            else { // sinon message de prévention et redirection
-                $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
-                header("Location: index.php?action=addActeur");
-                exit;
+                    // message lors de l'ajout d'un acteur
+                    $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être ajouté !</p>";
+                    
+                    // redirection vers la page liste acteurs
+                    header("Location: index.php?action=listActeurs"); 
+                    exit;
+                } 
+                else { // sinon message de prévention et redirection
+                    $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
+                    header("Location: index.php?action=addActeur");
+                    exit;
+                }
             }
-            
         }
         require "view/forms/addActeur.php";
     }
+
+///////////AJOUT D'UN REALISATEUR
+    public function addRealisateur(){
+        $pdo = Connect::seConnecter();
+        
+        if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $nomRealisateur = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $prenomRealisateur = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $sexeRealisateur = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $dateRealisateur = filter_input(INPUT_POST, "dateNaissance", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            ///////GESTION DE L'UPLOAD D'IMAGE
+            if(isset($_FILES['file'])){
+                // infos image
+                $tmpName = $_FILES['file']['tmp_name'];
+                $name = $_FILES['file']['name'];
+                $size = $_FILES['file']['size'];
+                $error = $_FILES['file']['error'];
+
+                //dossier de destination
+                $uploadBDD = 'public/img/personnes/';
+
+                $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
+                $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+                $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
+                $maxSize = 400000; 
+
+                if($nomRealisateur && $prenomRealisateur && $sexeRealisateur && $dateRealisateur){
+                    // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                    if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                        //pour ne pas écraser deux images ayant le même nom
+                        $uniqueName = uniqid('', true);
+                        //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                        $file = $uniqueName.".".$extension;
+                        //$file = 5f586bf96dcd38.73540086.jpg
+                        move_uploaded_file($tmpName, $uploadBDD . $file);
+                    }
+                    else{
+                        echo "Mauvaise extension ou taille de l'image trop lourde !";
+                        exit;
+                    }
+                    //exécute la requête d'ajout d'un acteur dans personne
+                    $addRealisateur = $pdo->prepare("
+                        INSERT INTO personne(nom, prenom, sexe, dateNaissance, photo) 
+                        VALUES(:nom, :prenom, :sexe, :dateNaissance, :photo)
+                    ");
+                    $addRealisateur->execute(["nom" => $nomRealisateur,
+                                        "prenom" => $prenomRealisateur,
+                                        "sexe" => $sexeRealisateur,
+                                        "dateNaissance" => $dateRealisateur,
+                                        "photo" => $uploadBDD . $file]);
+
+                    //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans personne
+                    $idPersonne=$pdo->lastInsertId();
+
+                    //exécute la requête d'ajout d'un acteur
+                    $addIdRealisateur = $pdo->prepare("
+                        INSERT INTO realisateur (id_personne) 
+                        VALUES (:id_personne)
+                    ");
+                    $addIdRealisateur->execute(["id_personne" => $idPersonne]);
+                
+                    // message lors de l'ajout d'un acteur
+                    $_SESSION['message'] = "<p>Le réalisateur $nomRealisateur vient d'être ajouté !</p>";
+                    
+                    // redirection vers la page liste acteurs
+                    header("Location: index.php?action=listRealisateurs"); 
+                    exit;
+                } 
+                else { // sinon message de prévention et redirection
+                    $_SESSION['message'] = "<p>Le réalisateur n'a pas été enregistré !</p>";
+                    header("Location: index.php?action=addRealisateur");
+                    exit;
+                }
+            }
+        }
+        require "view/forms/addRealisateur.php";
+    }
 }
-
-
-
-
-/////////MESSAGE NOTIFICATION
-// récupère un message suite à l'action d'un utilisateur le renvoi
-// function getMessage() { 
-//     if(isset($_SESSION["message"])) {
-//         $message = $_SESSION["message"];
-//     }
-//     return $message;
-// }

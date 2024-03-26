@@ -31,6 +31,7 @@ if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via 
         case "detailRealisateur" : $ctrlCinema->detailRealisateur($id); break;
         //forms
         case "addActeur" : $ctrlCinema->addActeur(); break; 
+        case "addRealisateur" : $ctrlCinema->addRealisateur(); break; 
         case "addFilm" : $ctrlCinema->addFilm(); break;
         case "addGenre" : $ctrlCinema->addGenre(); break;
         case "addRole" : $ctrlCinema->addRole(); break;

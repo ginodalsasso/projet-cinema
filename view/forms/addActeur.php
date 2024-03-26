@@ -1,10 +1,11 @@
     <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
 
+
 <!-- formulaire d'ajout d'un acteur -->
 <section class="form">
     <!-- action redirigeant vers la méthode du controller -->
-    <form action="index.php?action=addActeur" method="post">
+    <form action="index.php?action=addActeur" method="post" enctype="multipart/form-data">
         <p><label>Nom :</label></p>
             <input type="text" class="form_item" name="nom" placeholder="Nom" required>
         <p><label>Prenom :</label></p>
@@ -13,8 +14,8 @@
             <input type="text" class="form_item" name="sexe" placeholder="sexe" required>
         <p><label>Date de naissance :</label></p>
             <input type="date" class="form_item" name="dateNaissance" required>
-        <p><label for="photo">Ajouter une photo</label></p>
-            <input type="file" name="photo" class="add_photo" accept="image/jpg, image/png, image/jpeg, image/webpg">
+        <p><label for="file">Ajouter une photo</label></p>
+            <input type="file" name="file" class="add_photo" accept="image/jpg, image/png, image/jpeg, image/webp">
         
         <p><button type="submit" name="submit" class="more_btn">Ajouter l'acteur</button></p>
     </form>
