@@ -39,6 +39,7 @@
             </ul>
         </nav>
     </header>
+    
     <main>
         <div id="contenu">
             <h1>PDO Cinema</h1>
@@ -47,6 +48,7 @@
         </div>
     </main>
 </body>
+
 <footer>
     <ul class="footer_list">
         <li class="footer_item">

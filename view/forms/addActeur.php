@@ -3,7 +3,8 @@
 
 <!-- formulaire d'ajout d'un acteur -->
 <section class="form">
-    <form action="">
+    <!-- action redirigeant vers la méthode du controller -->
+    <form action="index.php?action=addActeur" method="post">
         <p><label>Nom :</label></p>
             <input type="text" class="form_item" name="nom" placeholder="Nom" required>
         <p><label>Prenom :</label></p>
@@ -11,13 +12,23 @@
         <p><label>Sexe :</label></p>
             <input type="text" class="form_item" name="sexe" placeholder="sexe" required>
         <p><label>Date de naissance :</label></p>
-            <input type="date" class="form_item" name="anniversaire" required>
-        <p><label for="file">Ajouter une photo</label></p>
-            <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg">
+            <input type="date" class="form_item" name="dateNaissance" required>
+        <p><label for="photo">Ajouter une photo</label></p>
+            <input type="file" name="photo" class="add_photo" accept="image/jpg, image/png, image/jpeg, image/webpg">
         
-        <p><button type="submit" name="submit" class="add_btn">Ajouter l'acteur</button></p>
+        <p><button type="submit" name="submit" class="more_btn">Ajouter l'acteur</button></p>
     </form>
 </section>
+
+<?php
+    // Vérifie si un message est défini dans la session
+    if (isset($_SESSION['message'] )){
+        // Affiche le message
+        echo $_SESSION['message'] ;
+        // Efface le message de la session pour qu'il ne s'affiche pas à nouveau lors du prochain chargement de la page
+        unset($_SESSION['message'] );
+    }
+?>
 
 <?php
 

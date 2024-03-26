@@ -229,41 +229,145 @@ class CinemaController {
 /////////AJOUT DU GENRE
     public function addGenre(){
         $pdo = Connect::seConnecter();
-        //exécute la requête d'ajout d'un genre
-        $addGenre = $pdo->prepare("
-            INSERT into genre(nom_genre) VALUES(:nom_genre)
-        ");
-        $addGenre->execute(["nom_genre" => $nomGenre]);
+        
+        if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $nomGenre = filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if($nomGenre){
+                //exécute la requête d'ajout d'un genre
+                $addGenre = $pdo->prepare("
+                    INSERT INTO genre(nom_genre) VALUES(:nom_genre)
+                ");
+                $addGenre->execute(["nom_genre" => $nomGenre]);
+    
+                // message lors de l'ajout d'un genre
+                $_SESSION['message'] []= "<p>Le Genre $nomGenre vient d'être ajouté !</p>";
+                
+                // redirection vers la page du nouveau genre
+                header("Location: index.php?action=addGenre"); 
+                exit;
+            } 
+            else { // sinon message de prévention et redirection à l'accueil
+                $_SESSION['message'] = "<p>Le genre n'a pas été enregistré !</p>";
+                header("Location: index.php?action=addGenre");
+                exit;
+            }
+        }
         require "view/forms/addGenre.php";
     }
 
-    // public function traitementGenre(){
 
-    //     if(isset($_POST['submit'])){
-    //         $nomGenre= filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    //         if($nomGenre){
-    //             $genreAdded->addGenre($nomGenre);
-
-    //             $_SESSION['messages'][] = "Le Genre $nomGenre vient d'être ajouté !";
+/////////AJOUT DU ROLE
+    public function addRole(){
+        $pdo = Connect::seConnecter();
+        
+        if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $nomRole = filter_input(INPUT_POST, "role_personnage", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if($nomRole){
+                //exécute la requête d'ajout d'un genre
+                $addRole = $pdo->prepare("
+                    INSERT INTO role(role_personnage) VALUES(:role_personnage)
+                ");
+                $addRole->execute(["role_personnage" => $nomRole]);
+    
+                // message lors de l'ajout d'un genre
+                $_SESSION['message'] []= "<p>Le rôle de $nomRole vient d'être ajouté !</p>";
                 
-    //             $idGenre = $pdo->lastInsertId();
-    //             //message lors de l'ajout d'un genre et redirection vers la page du nouveau genre
-    //             header(""); die;
-               
-    //         } else{
-    //             header("Location:index.php");
-    //         }
-    //     }
-    // }
+                // redirection vers la page du nouveau genre
+                header("Location: index.php?action=addRole"); 
+                exit;
+            } 
+            else { // sinon message de prévention et redirection à l'accueil
+                $_SESSION['message'] = "<p>Le rôle n'a pas été enregistré !</p>";
+                header("Location: index.php?action=addRole");
+                exit;
+            }
+        }
+        require "view/forms/addRole.php";
+    }
 
 
+// /////////AJOUT D'UN ACTEUR
+    public function addActeur(){
+        $pdo = Connect::seConnecter();
+        
+        if(isset($_POST['submit']) && isset($_FILES['file'])){
+            // filtre la valeur insérée dans le formulaire
+            $nomActeur = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $prenomActeur = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $sexeActeur = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $dateActeur = filter_input(INPUT_POST, "dateNaissance", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
+/////////////////GESTION DE L'UPLOAD D'IMAGE
+                $tmpName = $_FILES['file']['tmp_name'];
+                $name = $_FILES['file']['name'];
+                $size = $_FILES['file']['size'];
+                $error = $_FILES['file']['error'];
 
-    // public function detActeur($id) {
-    //     $pdo = Connect::seConnecter();
-    //     //exécute la requête de notre choix
-    //     $requete = $pdo->prepare("SELECT * FROM acteur WHERE id_acteur = :id"); //Quand on fait une requête dans laquelle on a un élément variable (comme ici l'id de l'acteur), il faut faire un "prepare"
-    //     $requete->execute(["id" => $id]);  // dans le "execute" on fait passer un tableau associatif qui associe le nom de champ paramétré avec la valeur de l'id (celui passé dans la méthode : $id)
-    //     require "view/acteur/detailActeur.php";
-    // }
+                // selectionne le dossier de destination
+                move_uploaded_file($tmpName, './public/img/personnes/'.$name);
+
+                //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
+                $tabExtension = explode('.', $name);
+                $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+
+                $extensions = ['jpg', 'png', 'jpeg', 'webpg'];
+                $tailleMax = 400000;  
+
+                // si l'extension est dans le tableau des extensions autorisées que la taill est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                    //pour ne pas écraser deux images ayant le même nom
+                    $uniqueName = uniqid('', true);
+                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                    $file = $uniqueName.".".$extension;
+                    //$file = 5f586bf96dcd38.73540086.jpg
+                    move_uploaded_file($tmpName, './upload/'.$name);
+
+                    //exécute la requête d'ajout d'un acteur
+                    $addActeur = $pdo->prepare("
+                        INSERT INTO personne(nom, prenom, sexe, dateNaissance, photo) 
+                        VALUES(:nom, :prenom, :sexe, :dateNaissance, :photo)
+                            ");
+                    $addActeur->execute(["nom" => $nomActeur,
+                                        "prenom" => $prenomActeur,
+                                        "sexe" => $sexeActeur,
+                                        "dateNaissance" => $dateActeur,
+                                        "photo => $photo"]);
+                        }
+                else{
+                    echo "Mauvaise extension ou taille de l'image trop lourde !";
+                }
+
+                // message lors de l'ajout d'un acteur
+                $_SESSION['message'] []= "<p>L'acteur' $nomActeur vient d'être ajouté !</p>";
+                
+                // redirection vers la page du nouvel acteur
+                header("Location: index.php?action=addActeur"); 
+                exit;
+            } 
+            else { // sinon message de prévention et redirection
+                $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
+                header("Location: index.php?action=addActeur");
+                exit;
+            }
+            
+        }
+        require "view/forms/addActeur.php";
+    }
 }
 
+
+
+
+/////////MESSAGE NOTIFICATION
+// récupère un message suite à l'action d'un utilisateur le renvoi
+// function getMessage() { 
+//     if(isset($_SESSION["message"])) {
+//         $message = $_SESSION["message"];
+//     }
+//     return $message;
+// }
