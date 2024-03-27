@@ -1,6 +1,12 @@
 <?php
 
-use Controller\CinemaController; //"use" le controller Cinema
+use Controller\HomeController; //"use" le controller Home
+use Controller\ActeursController; //"use" le controller acteurs
+use Controller\CastingsController; //"use" le controller castings
+use Controller\FilmsController; //"use" le controller films
+use Controller\GenresController; //"use" le controller genres
+use Controller\RealisateursController; //"use" le controller realisateurs
+use Controller\RolesController; //"use" le controller Roles
 
 
 spl_autoload_register(function ($class_name) { //n autocharge les classes du projet
@@ -8,7 +14,14 @@ spl_autoload_register(function ($class_name) { //n autocharge les classes du pro
     // include $class_name . '.php';
 });
 
-$ctrlCinema = new CinemaController(); //instance le controller Cinema
+$ctrlHome = new HomeController(); 
+$ctrlActeurs = new ActeursController(); 
+$ctrlCastings = new CastingsController(); 
+$ctrlFilms = new FilmsController(); 
+$ctrlGenres = new GenresController(); 
+$ctrlRealisateurs = new RealisateursController(); 
+$ctrlRoles = new RolesController(); 
+
 
 //En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller
 $id= (isset($_GET["id"])) ? $_GET["id"] : null;
@@ -17,25 +30,25 @@ $id= (isset($_GET["id"])) ? $_GET["id"] : null;
 if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller
     switch ($_GET["action"]){
 
-        case "home" : $ctrlCinema->listHome(); break;
+        case "home" : $ctrlHome->listHome(); break;
         //list
-        case "listActeurs" : $ctrlCinema->listActeurs(); break;
-        case "listFilms" : $ctrlCinema->listFilms(); break;
-        case "listGenres" : $ctrlCinema->listGenres(); break;
-        case "listRealisateurs" : $ctrlCinema->listRealisateurs(); break;
-        case "listRoles" : $ctrlCinema->listRoles(); break;
+        case "listActeurs" : $ctrlActeurs->listActeurs(); break;
+        case "listFilms" : $ctrlFilms->listFilms(); break;
+        case "listGenres" : $ctrlGenres->listGenres(); break;
+        case "listRealisateurs" : $ctrlRealisateurs->listRealisateurs(); break;
+        case "listRoles" : $ctrlRoles->listRoles(); break;
         //detail
-        case "detailActeur" : $ctrlCinema->detailActeur($id); break;
-        case "detailFilm" : $ctrlCinema->detailFilm($id); break;
-        case "detailGenre" : $ctrlCinema->detailGenre($id); break;
-        case "detailRealisateur" : $ctrlCinema->detailRealisateur($id); break;
+        case "detailActeur" : $ctrlActeurs->detailActeur($id); break;
+        case "detailFilm" : $ctrlFilms->detailFilm($id); break;
+        case "detailGenre" : $ctrlGenres->detailGenre($id); break;
+        case "detailRealisateur" : $ctrlRealisateurs->detailRealisateur($id); break;
         //forms
-        case "addActeur" : $ctrlCinema->addActeur(); break; 
-        case "addRealisateur" : $ctrlCinema->addRealisateur(); break; 
-        case "addFilm" : $ctrlCinema->addFilm(); break;
-        case "addGenre" : $ctrlCinema->addGenre(); break;
-        case "addRole" : $ctrlCinema->addRole(); break;
-        case "addCasting" : $ctrlCinema->addCasting(); break;
+        case "addActeur" : $ctrlActeurs->addActeur(); break; 
+        case "addRealisateur" : $ctrlRealisateurs->addRealisateur(); break; 
+        case "addFilm" : $ctrlFilms->addFilm(); break;
+        case "addGenre" : $ctrlGenres->addGenre(); break;
+        case "addRole" : $ctrlRoles->addRole(); break;
+        case "addCasting" : $ctrlCastings->addCasting(); break;
         
     }
 };

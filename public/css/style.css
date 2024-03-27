@@ -181,13 +181,11 @@ h3{
     background-color: var(--bg-colour);
     display: inline-block;
     cursor: pointer;
-}
-
-.more_btn a{
     text-decoration: none;
 }
 
-.more_btn:hover, .more_btn a:hover:visited{
+
+.more_btn:hover, .more_btn:hover:visited{
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
     color: var(--bg-colour);
     background-color: var(--font-color);

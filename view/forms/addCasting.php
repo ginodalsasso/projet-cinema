@@ -5,19 +5,14 @@
 $films = $choixFilm->fetchAll();
 $acteurs = $choixActeur->fetchAll();
 $roles = $choixRole->fetchAll();
-
 // var_dump($_POST['submit']);
 ?>
 
 <!-- formulaire d'ajout d'un casting -->
-
-
-
 <section class="form">
     <form action="index.php?action=addCasting" method="post" enctype="multipart/form-data">
 
-
-        <p><label>Film :</label></p>
+        <p><label>Selection du film :</label></p>
         <!-- select des films -->
         <select name="id_film" id="film-select">
             <?php 

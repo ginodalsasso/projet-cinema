@@ -9,7 +9,7 @@
         <p><label>Titre du genre :</label></p>
             <input type="text" class="form_item" name="nom_genre" placeholder="Titre" required>
         
-        <p><button type="submit" name="submit" class="more_btn">Ajouter le genre</button></p>
+        <p><a type="submit" name="submit" class="more_btn">Ajouter le genre</a></p>
     </form>
 </section>
 

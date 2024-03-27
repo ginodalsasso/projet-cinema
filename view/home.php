@@ -18,9 +18,7 @@
         </div>
         
         <div class="btn_display">
-                <button class="more_btn" type="button">
-                        <a href="index.php?action=listFilms">En savoir plus</a>
-                </button>
+                <a href="index.php?action=listFilms" class="more_btn">En savoir plus</a>
         </div>
 
         <!---------------------------- ACTEURS --------------------------------->
@@ -37,9 +35,7 @@
         </div>
         
         <div class="btn_display">
-                <button class="more_btn" type="button">
-                        <a href="index.php?action=listActeurs">En savoir plus</a>
-                </button>
+                <a href="index.php?action=listActeurs" class="more_btn">En savoir plus</a>
         </div>
 
         <!---------------------------- REALISATEURS --------------------------------->
@@ -56,9 +52,7 @@
         </div>
         
         <div class="btn_display">
-                <button class="more_btn" type="button">
-                        <a href="index.php?action=listRealisateurs">En savoir plus</a>
-                </button>
+                <a href="index.php?action=listRealisateurs" class="more_btn">En savoir plus</a>
         </div>
 
         <!---------------------------- GENRES --------------------------------->
@@ -76,9 +70,7 @@
         </div>
 
         <div class="btn_display">
-                <button class="more_btn" type="button">
-                        <a href="index.php?action=listGenres">En savoir plus</a>
-                </button>
+                <a href="index.php?action=listGenres" class="more_btn">En savoir plus</a>
         </div>
         
         <!---------------------------- ROLES --------------------------------->
@@ -97,9 +89,7 @@
         </div>
 
         <div class="btn_display">
-                <button class="more_btn" type="button">
-                        <a href="index.php?action=listRoles">En savoir plus</a>
-                </button>
+                <a href="index.php?action=listRoles" class="more_btn">En savoir plus</a>
         </div>
 <?php
 

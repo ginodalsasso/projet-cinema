@@ -39,7 +39,7 @@
             </ul>
         </nav>
     </header>
-    
+<!--==================== BODY ====================-->
     <main>
         <div id="contenu">
             <h1>PDO Cinema</h1>
