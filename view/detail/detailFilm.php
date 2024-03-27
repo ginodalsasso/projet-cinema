@@ -4,7 +4,8 @@
 <?php 
 // Récupération des données du film et de son casting
 $film = $requeteFilm->fetch();
-$castings = $requeteCasting->fetchAll();?>
+$castings = $requeteCasting->fetchAll();
+$Genre = $requeteGenre->fetch()?>
 
 <!-- Affichage des informations sur le film -->
 <div>
@@ -13,6 +14,7 @@ $castings = $requeteCasting->fetchAll();?>
     <p>Durée: <?= $film["duree"]?>min</p>
     <p>Note: <?= $film["note"]?></p>
     <p>De <?= $film["nom_realisateur"]?></p>
+    <p>Genre: <?= $Genre["nom_genre"]?></p>
 
 </div>
 
@@ -35,6 +37,7 @@ $castings = $requeteCasting->fetchAll();?>
                     <td><?= $casting["nomActeur"] ?></td>
                     <td><?= $casting["id_acteur"] ?></td>
                     <td><?= $casting["role_personnage"] ?></td>
+                    <td><?= $casting["id_role"] ?></td>
                     <td><?= $casting["id_role"] ?></td>
                     <td>
                         <a href="index.php?action=detailActeur&id=<?= $casting["id_acteur"] ?>">

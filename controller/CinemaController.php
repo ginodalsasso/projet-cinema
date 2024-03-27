@@ -191,6 +191,16 @@ class CinemaController {
         ");
         $requeteFilm->execute(["id" => $id]);
 
+        //exécute la requête genre d'un film
+        $requeteGenre = $pdo->prepare("
+            SELECT GROUP_CONCAT(g.nom_genre SEPARATOR ', ') AS nom_genre
+            FROM  genre_film gf
+            INNER JOIN genre g ON gf.id_genre = g.id_genre
+            INNER JOIN film f ON gf.id_film = f.id_film
+            WHERE f.id_film = :id
+        ");
+        $requeteGenre->execute(["id" => $id]);
+
         //exécute la requête pour le casting d'un film
         $requeteCasting = $pdo->prepare("
             SELECT CONCAT(prenom, ' ', nom) AS nomActeur, role_personnage, p.photo, a.id_acteur, r.id_role           FROM film f
@@ -315,7 +325,7 @@ class CinemaController {
                 $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
                 $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
                 $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
-                $maxSize = 400000; 
+                $maxSize = 40000000; 
 
                 if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
                     // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
@@ -394,7 +404,7 @@ class CinemaController {
                 $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
                 $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
                 $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
-                $maxSize = 400000; 
+                $maxSize = 40000000; 
 
                 if($nomRealisateur && $prenomRealisateur && $sexeRealisateur && $dateRealisateur){
                     // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
@@ -449,16 +459,24 @@ class CinemaController {
     }
 
 
-
-
-
-
-
-
 ///////////////////////////////////////////////////////AJOUT D'UN FILM
     public function addFilm(){
         $pdo = Connect::seConnecter();
+
+         // choix du réalisateur
+         $choixRealisateur = $pdo->prepare("
+            SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
+            FROM realisateur r
+            INNER JOIN personne p ON r.id_personne = p.id_personne
+            ORDER BY p.nom");
+        $choixRealisateur->execute();
+     
+        // choix du genre
+        $choixGenre = $pdo->prepare("
+            SELECT * FROM genre ORDER BY nom_genre");
+        $choixGenre->execute();
         
+        // si le formulaire est envoyé 
         if(isset($_POST['submit'])){
             // filtre la valeur insérée dans le formulaire
             $titreFilm = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -466,9 +484,8 @@ class CinemaController {
             $dureeFilm = filter_input(INPUT_POST, "duree",  FILTER_VALIDATE_INT);
             $noteFilm = filter_input(INPUT_POST, "note", FILTER_VALIDATE_INT);
             $synopsisFilm = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            // $genreFilm = filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $realisateurFilm = filter_input(INPUT_POST, "id_realisateur", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
+            
             ///////GESTION DE L'UPLOAD D'IMAGE
             if(isset($_FILES['file'])){
                 // infos image
@@ -483,9 +500,10 @@ class CinemaController {
                 $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
                 $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
                 $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
-                $maxSize = 400000; 
+                $maxSize = 40000000; 
 
-                if($titreFilm && $parutionFilm && $dureeFilm && $noteFilm && $synopsisFilm && $genreFilm && $realisateurFilm){
+                if($titreFilm && $parutionFilm && $dureeFilm && $noteFilm && $synopsisFilm  && $realisateurFilm){ //&& $genreFilm
+
                     // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
                     if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
                         //pour ne pas écraser deux images ayant le même nom
@@ -499,7 +517,7 @@ class CinemaController {
                         echo "Mauvaise extension ou taille de l'image trop lourde !";
                         exit;
                     }
-                    //exécute la requête d'ajout d'un acteur dans personne
+                    //exécute la requête d'ajout d'un film
                     $addFilm = $pdo->prepare("
                         INSERT INTO film(titre, parution, duree, synopsis, note, affiche, id_realisateur) 
                         VALUES(:titre, :parution, :duree, :synopsis, :note, :affiche, :id_realisateur)
@@ -510,25 +528,13 @@ class CinemaController {
                                         "synopsis" => $synopsisFilm,
                                         "note" => $noteFilm,
                                         "affiche" => $uploadBDD . $file,
-                                        "id_realisateur" => $realisateurFilm]);
+                                        "id_realisateur" => $realisateurFilm
+                                    ]);
 
                     //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans film
-                    $idFilm=$pdo->lastInsertId();
-
-                    // choix du réalisateur
-                    $choixRealisateur = $pdo->prepare("
-                        SELECT concat(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
-                        FROM realisateur r
-                        INNER JOIN personne p ON r.id_personne = p.id_personne
-                        ORDER BY p.nom");
-                    $choixRealisateur->execute();
-                    
-                    // choix du genre
-                    $choixGenre = $pdo->prepare("
-                        SELECT * from genre ORDER BY nom_genre");
-                    $choixGenre->execute();
-                    
-                    // boucle pour ajouter les genres sélectionnés.
+                    $idFilm = $pdo->lastInsertId();
+                     
+                    // boucle pour ajouter les genres sélectionnés en bdd
                     foreach ($_POST['genres'] as $genreFilm) {
 
                         $genreFilm = filter_var($genreFilm, FILTER_VALIDATE_INT);
@@ -560,4 +566,74 @@ class CinemaController {
         }
         require "view/forms/addFilm.php";
     }
+
+
+///////////////////////////////////////////////////////AJOUT D'UN CASTING
+    public function addCasting(){
+        $pdo = Connect::seConnecter();
+        ////////////////////requètes pour les select de la vue addCasting
+        // choix du film
+        $choixFilm = $pdo->prepare("
+            SELECT titre, id_film
+            FROM film 
+            ORDER BY titre"
+        );
+        $choixFilm->execute();
+
+         // choix du réalisateur
+         $choixActeur = $pdo->prepare("
+            SELECT CONCAT(p.prenom, ' ', p.nom) AS nomActeur, a.id_acteur
+            FROM acteur a
+            INNER JOIN personne p ON a.id_personne = p.id_personne
+            ORDER BY p.nom"
+        );
+        $choixActeur->execute();
+
+         // choix du rôle
+         $choixRole = $pdo->prepare("
+            SELECT role_personnage, id_role
+            FROM  role r
+            ORDER BY r.role_personnage"
+        );
+        $choixRole->execute();
+
+         // si le formulaire est envoyé 
+         if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $realisateurFilm = filter_input(INPUT_POST, "id_realisateur", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+     
+
+        require "view/forms/addCasting.php";
+    }
+
+    // public function addImg(){
+    //     ///////GESTION DE L'UPLOAD D'IMAGE
+    //     if(isset($_FILES['file'])){
+    //         // infos image
+    //         $tmpName = $_FILES['file']['tmp_name'];
+    //         $name = $_FILES['file']['name'];
+    //         $size = $_FILES['file']['size'];
+    //         $error = $_FILES['file']['error'];
+
+    //         $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
+    //         $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+    //         $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
+    //         $maxSize = 400000; 
+    //         }
+
+    //     // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+    //     if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+    //         //pour ne pas écraser deux images ayant le même nom
+    //         $uniqueName = uniqid('', true);
+    //         //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+    //         $file = $uniqueName.".".$extension;
+    //         //$file = 5f586bf96dcd38.73540086.jpg
+    //         move_uploaded_file($tmpName, $uploadBDD . $file);
+    //     }
+    //     else{
+    //         echo "Mauvaise extension ou taille de l'image trop lourde !";
+    //         exit;
+    //     }
 }
+

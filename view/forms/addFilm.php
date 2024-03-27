@@ -1,11 +1,12 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
 <?php ob_start(); ?>
 
-<?php $realisateurs = $choixRealisateur->fetchAll();
-      $genres = $choixGenre->fetchAll();
+<?php 
+$realisateurs = $choixRealisateur->fetchAll();
+$genres = $choixGenre->fetchAll();
 ?>
 
-<!-- formulaire d'ajout d'un acteur -->
+<!-- formulaire d'ajout d'un film -->
 <section class="form">
     <form action="index.php?action=addFilm" method="post" enctype="multipart/form-data">
         <p><label>Titre du film :</label></p>
@@ -24,19 +25,19 @@
             <!-- select des realisateurs -->
             <?php 
             foreach($realisateurs as $real){ ?>
-                    <option value="<?=$real["id_realisateur"]?>"><?=$real["realisateurs"]?></option>
+                    <option value="<?=$real["id_realisateur"]?>"><?=$real["nomRealisateur"]?></option>
             <?php } ?>
         </select>
 
         <p><label>Choisissez un genre :</label></p> 
         <!-- checkbox des genres  -->
         <?php foreach($genres as $genre){ ?>
-            <p><input type="checkbox" id="<?=$genre["nom"]?>" name="genres[]" value="<?=$genre["id_genre"]?>"/>
-            <label for="<?=$genre["nom"]?>"><?=$genre["nom"]?></label> </p>  
+            <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>"/>
+            <label for="<?=$genre["nom_genre"]?>"><?=$genre["nom_genre"]?></label> </p>  
                 <?php } ?> 
                 
         <p><label for="file">Ajouter une affiche</label></p>
-            <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg">
+            <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg, image/webp">
         
         <p><button type="submit" name="submit" class="add_btn">Ajouter le film</button></p>
     </form>
