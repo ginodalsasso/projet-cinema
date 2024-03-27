@@ -13,7 +13,7 @@ $Genre = $requeteGenre->fetch()?>
     <p>Parution: <?= $film["parution"]?></p>
     <p>Durée: <?= $film["duree"]?>min</p>
     <p>Note: <?= $film["note"]?></p>
-    <p>De <?= $film["nom_realisateur"]?></p>
+    <p>De <a href="index.php?action=detailRealisateur&id=<?= $film["id_realisateur"] ?>"><?= $film["nom_realisateur"]?></p></a>
     <p>Genre: <?= $Genre["nom_genre"]?></p>
 
 </div>
@@ -47,6 +47,9 @@ $Genre = $requeteGenre->fetch()?>
             <?php } ?>
     </tbody>
 </table>
+
+
+<a href="index.php?action=addCasting" class="add_btn">Ajouter un casting </a> 
 
 <?php
 

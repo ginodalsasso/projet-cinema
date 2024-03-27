@@ -3,6 +3,7 @@
 
 <!-- Affichage du nombre de réalisateurs -->
 <p class="count_list">Il y a <?= $requeteRealisateurs->rowCount() ?> réalisateurs</p> 
+<a href="index.php?action=addRealisateur" class="add_btn">Ajouter un réalisateur </a> 
 
     <div class="cards_list">
         <?php

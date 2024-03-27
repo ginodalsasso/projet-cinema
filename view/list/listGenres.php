@@ -3,6 +3,7 @@
 
 <!-- Affichage du nombre de genres -->
 <p class="count_list">Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
+<a href="index.php?action=addGenre" class="add_btn">Ajouter un genre </a> 
 
 <div class="cards_list">
 

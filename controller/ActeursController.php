@@ -125,4 +125,95 @@ class ActeursController{
         }
         require "view/forms/addActeur.php";
     }
+
+
+///////////////////////////////////////////////////////EDITION D'UN ACTEUR
+
+    public function editActeur($id){ //$id de l'acteur à éditer
+        $pdo = Connect::seConnecter();
+        
+        //exécute la requête détail d'un acteur pour préremplir les champs du formulaires ($id)
+        $choixActeur = $pdo->prepare("
+            SELECT p.prenom, p.nom, DATE_FORMAT(dateNaissance, '%d/%m/%Y') AS dateNaissance, p.sexe, a.id_personne, a.id_acteur, p.photo
+            FROM acteur a
+            INNER JOIN personne p ON a.id_personne = p.id_personne
+            WHERE id_acteur = :id 
+        ");
+
+        $choixActeur->execute(["id" => $id]);
+
+
+        if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $nomActeur = filter_input(INPUT_POST, "nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $prenomActeur = filter_input(INPUT_POST, "prenom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $sexeActeur = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $dateActeur = filter_input(INPUT_POST, "dateNaissance", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            ///////GESTION DE L'UPLOAD D'IMAGE
+            // if(isset($_FILES['file'])){
+                // infos image
+                // $tmpName = $_FILES['file']['tmp_name'];
+                // $name = $_FILES['file']['name'];
+                // $size = $_FILES['file']['size'];
+                // $error = $_FILES['file']['error'];
+
+                // //dossier de destination
+                // $uploadBDD = 'public/img/personnes/';
+
+                // $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
+                // $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+                // $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
+                // $maxSize = 40000000; 
+
+                if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
+                    // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                    // if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                    //     //pour ne pas écraser deux images ayant le même nom
+                    //     $uniqueName = uniqid('', true);
+                    //     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                    //     $file = $uniqueName.".".$extension;
+                    //     //$file = 5f586bf96dcd38.73540086.jpg
+                    //     move_uploaded_file($tmpName, $uploadBDD . $file);
+                    // }
+                    // else{
+                    //     echo "Mauvaise extension ou taille de l'image trop lourde !";
+                    //     exit;
+                    // }
+                    //exécute la requête d'édition d'un acteur dans personne
+
+                    $addActeur = $pdo->prepare("
+                        UPDATE personne 
+                        SET nom = ':nom', 
+                            prenom = ':prenom',
+                            sexe = ':sexe', 
+                            dateNaissance = ':dateNaissance' 
+                            ");
+                            // :photo = ':photo'
+
+                    $addActeur->execute(["nom" => $nomActeur,/////////////////////////////////////////PROBLEME DE REQUETE
+                                        "prenom" => $prenomActeur,
+                                        "sexe" => $sexeActeur,
+                                        "dateNaissance" => $dateActeur
+                                    ]);
+                                    // "photo" => $uploadBDD . $file
+                
+                    // message lors de l'ajout d'un acteur
+                    $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être modifié !</p>";
+                    
+                    // redirection vers la page liste acteurs
+                    header("Location: index.php?action=listActeurs"); 
+                    exit;
+                } 
+                else { // sinon message de prévention et redirection
+                    var_dump("test pas ok");
+                    $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
+                    header("Location: index.php?action=editActeur");
+                    exit;
+                }
+            // }
+        }
+        require "view/forms/editActeur.php";
+    }
+
 }

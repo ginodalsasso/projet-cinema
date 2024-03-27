@@ -42,13 +42,17 @@ if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via 
         case "detailFilm" : $ctrlFilms->detailFilm($id); break;
         case "detailGenre" : $ctrlGenres->detailGenre($id); break;
         case "detailRealisateur" : $ctrlRealisateurs->detailRealisateur($id); break;
-        //forms
+        //forms ajout
         case "addActeur" : $ctrlActeurs->addActeur(); break; 
         case "addRealisateur" : $ctrlRealisateurs->addRealisateur(); break; 
         case "addFilm" : $ctrlFilms->addFilm(); break;
         case "addGenre" : $ctrlGenres->addGenre(); break;
         case "addRole" : $ctrlRoles->addRole(); break;
         case "addCasting" : $ctrlCastings->addCasting(); break;
+        //forms edit
+        case "editActeur" : $ctrlActeurs->editActeur($id); break;
+        case "editFilm" : $ctrlFilms->editFilm(); break;
+
         
     }
 };

@@ -3,6 +3,7 @@
 
 <!-- Affichage du nombre d'Acteurs -->
 <p class="count_list">Il y a <?= $requeteActeurs->rowCount() ?> acteurs</p> 
+<a href="index.php?action=addActeur" class="add_btn">Ajouter un acteur </a> 
 
     <div class="cards_list">
         <?php

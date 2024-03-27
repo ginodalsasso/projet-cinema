@@ -176,16 +176,30 @@ h3{
     border: 2px solid var(--font-color);
     border-radius: 10px;
     text-align: center;
-    padding: 10px 18px;
+    padding: 6px 18px;
     margin: 20px 0 80px 0;
     background-color: var(--bg-colour);
     display: inline-block;
     cursor: pointer;
     text-decoration: none;
+    color:var(--font-color);
+}
+.add_btn{
+    font-size: var(--body-font-size);
+    border: 2px solid var(--font-color);
+    border-radius: 10px;
+    text-align: center;
+    padding: 6px 18px;
+    margin: 0 0 10px 10px;
+    background-color: var(--bg-colour);
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color:var(--font-color);
 }
 
 
-.more_btn:hover, .more_btn:hover:visited{
+.more_btn:hover, .more_btn:hover:visited, .add_btn:hover, .add_btn:hover:visited{
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
     color: var(--bg-colour);
     background-color: var(--font-color);

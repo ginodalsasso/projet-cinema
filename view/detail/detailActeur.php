@@ -6,6 +6,8 @@
 $acteur = $requeteActeur->fetch();
 $filmActeur = $requeteFilmActeur->fetchAll();?>
 
+<a href="index.php?action=editActeur&id=<?= $acteur["id_acteur"] ?>">Editer acteur</a>
+
 <div>
     <img src="<?= $acteur['photo']?>" alt="photo de l'acteur">
     <p>Date de naissance: <?= $acteur["dateNaissance"]?></p>

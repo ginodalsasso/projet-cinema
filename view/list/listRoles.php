@@ -3,6 +3,7 @@
 
 <!-- Affichage du nombre de rôles -->
 <p class="count_list">Il y a <?= $requeteRoles->rowCount() ?> Rôles</p> 
+<a href="index.php?action=addRole" class="add_btn">Ajouter un rôle </a> 
 
     <div class="cards_list">
         <?php

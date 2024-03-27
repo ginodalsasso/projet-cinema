@@ -3,6 +3,8 @@
 
 <!-- Affichage du nombre de films -->
 <p class="count_list">Il y a <?= $requeteFilms->rowCount() ?> films</p> 
+<a href="index.php?action=addFilm" class="add_btn">Ajouter un film </a> 
+
 
         <div class="cards_list">
             <?php
