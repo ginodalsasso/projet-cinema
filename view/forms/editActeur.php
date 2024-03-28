@@ -10,7 +10,7 @@ $acteur = $choixActeur->fetch();
 <section class="form">
     <!-- action redirigeant vers la méthode du controller -->
 
-    <form action="index.php?action=editActeur" method="post" enctype="multipart/form-data">
+    <form action="index.php?action=editActeur&id=<?= $_GET["id"] ?>" method="post" enctype="multipart/form-data">
         <p><label>Selection de l'acteur :</label></p>
            
 
@@ -22,8 +22,8 @@ $acteur = $choixActeur->fetch();
             <input value="<?= $acteur["sexe"] ?>" type="text" class="form_item" name="sexe" required>
         <p><label>Date de naissance :</label></p>
             <input value="<?= $acteur["dateNaissance"] ?>" type="date" class="form_item" name="dateNaissance" required>
-        <!-- <p><label for="file">Ajouter une photo</label></p>
-            <input type="file" name="file" class="add_photo" accept="image/jpg, image/png, image/jpeg, image/webp"> -->
+        <p><label for="file">Ajouter une photo</label></p>
+            <input type="file" name="file" class="add_photo" accept="image/jpg, image/png, image/jpeg, image/webp">
         
         <p><button type="submit" name="submit" class="more_btn">Editer l'acteur</button></p>
     </form>
