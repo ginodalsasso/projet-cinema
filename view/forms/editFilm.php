@@ -4,6 +4,8 @@
 <?php 
 //requête pour récupérer les infos d'un acteur
 $film = $choixFilm->fetch();
+$realisateurs = $choixRealisateur->fetchAll();
+$genres = $choixGenre->fetchAll();
 ?>
 
 <!-- formulaire d'édition d'un acteur -->
