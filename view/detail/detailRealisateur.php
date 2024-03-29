@@ -18,7 +18,6 @@ $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
         </figure>
         <p>Date de naissance: <?= $realisateur["dateNaissance"]?></p>
         <p>Sexe: <?= $realisateur["sexe"]?></p>
-        
     </div>
 
     <!-- liste des films réalisés par le réalisateur -->

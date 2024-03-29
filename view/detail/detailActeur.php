@@ -6,43 +6,39 @@
 $acteur = $requeteActeur->fetch();
 $filmActeur = $requeteFilmActeur->fetchAll();?>
 
-<a href="index.php?action=editActeur&id=<?= $acteur["id_acteur"] ?>">Editer acteur</a>
+<span id="add_btn_position">
+    <a class="add_btn" href="index.php?action=editActeur&id=<?= $acteur["id_acteur"] ?>">Editer l'acteur</a>
+</span>
+<!-- Affichage des informations sur l'acteur -->
+<div class="wrapper">
+    <div class="detail">
+        <figure class="fade_card">
+            <img src="<?= $acteur['photo']?>" alt="photo de l'acteur">
+        </figure>
+        <p>Date de naissance: <?= $acteur["dateNaissance"]?></p>
+        <p>Sexe: <?= $acteur["sexe"]?></p>
+    </div>
 
-<div>
-    <img src="<?= $acteur['photo']?>" alt="photo de l'acteur">
-    <p>Date de naissance: <?= $acteur["dateNaissance"]?></p>
-    <p>Sexe: <?= $acteur["sexe"]?></p>
-</div>
 
-<!-- tableau affichant les détails de l'acteur -->
-<table>
-    <thead>
-        <tr>
-            <th>titre</th>
-            <th>parution</th>
-            <th>role</th>
-            <th>id film</th>
-            <th>id role</th>
-            <th>photo</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-            foreach($filmActeur as $film) { ?>
-                <tr>
-                    <td><?= $film["titre"] ?></td>
-                    <td><?= $film["parution"] ?></td>
-                    <td><?= $film["role_personnage"] ?></td>
-                    <td><?= $film["id_film"] ?></td>
-                    <td><?= $film["id_role"] ?></td>
-                    <td>
+    <!-- liste des films joués par l'acteur -->
+                <h3>Films joués:</h3>
+        <div class="cards_list">
+            <?php
+             foreach($filmActeur as $film) { ?>
+                <div class="card_item">
                         <a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>">
-                        <img src="<?= $film['affiche']?>" alt="affiche du film"></a>
-                    </td>
-                </tr>
-            <?php } ?>
-    </tbody>
-</table>
+                            <figure class="fade_card">
+                                <img src="<?= $film['affiche']?>" alt="affiche du film">    
+                            </figure>
+                        </a>
+                        <p><?= $film["titre"] ?></p>
+                        <p><?= $film["parution"] ?></p>
+                        <p><?= $film["role_personnage"] ?></p>
+                    </div>
+
+                <?php } ?>
+        </div>
+    </div>
 
 <?php
 
