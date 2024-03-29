@@ -9,8 +9,8 @@ $roles = $choixRole->fetchAll();
 ?>
 
 <!-- formulaire d'ajout d'un casting -->
-<section class="form">
-    <form action="index.php?action=addCasting" method="post" enctype="multipart/form-data">
+<section class="wrapper">
+    <form class="form" action="index.php?action=addCasting" method="post" enctype="multipart/form-data">
 
         <p><label>Selection du film :</label></p>
         <!-- select des films -->

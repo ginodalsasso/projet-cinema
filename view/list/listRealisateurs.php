@@ -19,7 +19,8 @@
             </div>
             
         <?php } ?>
-        <p class="count_list">Il y a <?= $requeteRealisateurs->rowCount() ?> réalisateurs</p> 
+</div>
+<p class="count_list">Il y a <?= $requeteRealisateurs->rowCount() ?> réalisateurs</p> 
 
 <?php
 

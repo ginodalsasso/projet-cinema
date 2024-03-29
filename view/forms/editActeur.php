@@ -7,10 +7,9 @@ $acteur = $choixActeur->fetch();
 ?>
 
 <!-- formulaire d'édition d'un acteur -->
-<section class="form">
+<section class="wrapper">
     <!-- action redirigeant vers la méthode du controller -->
-
-    <form action="index.php?action=editActeur&id=<?= $_GET["id"] ?>" method="post" enctype="multipart/form-data">
+    <form class="form" action="index.php?action=editActeur&id=<?= $_GET["id"] ?>" method="post" enctype="multipart/form-data">
         <p><label>Selection de l'acteur :</label></p>
            
 

@@ -20,8 +20,9 @@
                 <p><?= $role["titre"] ?></p>
             </div>  
         <?php } ?>
-                    
-    <p class="count_list">Il y a <?= $requeteRoles->rowCount() ?> Rôles</p> 
+        
+</div> 
+<p class="count_list">Il y a <?= $requeteRoles->rowCount() ?> Rôles</p> 
 <?php
 
 // Définition des titres pour la vue

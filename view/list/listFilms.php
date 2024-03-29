@@ -7,16 +7,16 @@
 </span>
 
 <div class="cards_list">
-        <?php
-                foreach($requeteFilms->fetchAll() as $film) { ?>
-                        <div class="card_item">
-                                <a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>"><figure class="fade_card"><img src="<?= $film['affiche']?>" alt="affiche du film"></figure></a>
-                                <p><?= $film["note"] ?></p>
-                                <p><?= $film["titre"] ?></p>
-                                <p><?= $film["parution"] ?></p>
-                        </div>
+    <?php
+        foreach($requeteFilms->fetchAll() as $film) { ?>
+            <div class="card_item">
+                <a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>"><figure class="fade_card"><img src="<?= $film['affiche']?>" alt="affiche du film"></figure></a>
+                <p><?= $film["note"] ?></p>
+                <p><?= $film["titre"] ?></p>
+                <p><?= $film["parution"] ?></p>
+            </div>
 
-                <?php } ?>
+        <?php } ?>
 </div>
 <p class="count_list">Il y a <?= $requeteFilms->rowCount() ?> films</p> 
 

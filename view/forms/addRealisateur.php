@@ -3,9 +3,9 @@
 
 
 <!-- formulaire d'ajout d'un réalisateur -->
-<section class="form">
+<section class="wrapper">
     <!-- action redirigeant vers la méthode du controller -->
-    <form action="index.php?action=addRealisateur" method="post" enctype="multipart/form-data">
+    <form class="form" action="index.php?action=addRealisateur" method="post" enctype="multipart/form-data">
         <p><label>Nom :</label></p>
             <input type="text" class="form_item" name="nom" placeholder="Nom" required>
         <p><label>Prenom :</label></p>

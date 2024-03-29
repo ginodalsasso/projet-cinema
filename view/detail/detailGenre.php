@@ -7,15 +7,6 @@ $detailGenre = $requeteDetailGenre->fetch();
 $genres = $requeteGenre->fetchAll();?>
 
 <!--tableau affichant les genres de films -->
-<table>
-    <thead>
-        <tr>
-            <th>Affiche</th>
-            <th>Titre</th>
-            <th>Parution</th>
-        </tr>
-    </thead>
-    <tbody>
         <?php
             foreach($genres as $genre) { ?>
                 <tr>
@@ -27,14 +18,12 @@ $genres = $requeteGenre->fetchAll();?>
                     <td><?= $genre["parution"] ?></td>
                 </tr>
             <?php } ?>
-    </tbody>
-</table>
 
 <?php
 
 // Définition des titres pour la vue
 $titre = "Détail Genre";
-$titre_secondaire = $detailGenre["nom_genre"]; //titre variable en fonction de l'acteur
+$titre_secondaire = "Détail Genre"; //titre variable en fonction de l'acteur
 
 //injecter le contenu dans le template > template.php
 $contenu = ob_get_clean();

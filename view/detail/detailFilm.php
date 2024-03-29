@@ -7,49 +7,45 @@ $film = $requeteFilm->fetch();
 $castings = $requeteCasting->fetchAll();
 $Genre = $requeteGenre->fetch()?>
 
+<span id="add_btn_position">
+    <a class="add_btn" href="index.php?action=editFilm&id=<?= $film["id_film"] ?>">Editer le film</a>
+</span>
 <!-- Affichage des informations sur le film -->
-<div>
-    <img src="<?= $film['affiche']?>" alt="photo du film">
-    <p>Parution: <?= $film["parution"]?></p>
-    <p>Durée: <?= $film["duree"]?>min</p>
-    <p>Note: <?= $film["note"]?></p>
-    <p>De <a href="index.php?action=detailRealisateur&id=<?= $film["id_realisateur"] ?>"><?= $film["nom_realisateur"]?></p></a>
-    <p>Genre: <?= $Genre["nom_genre"]?></p>
+<div class="wrapper">
+    <div class="detail">
+        <figure class="fade_card">
+            <img src="<?= $film['affiche']?>" alt="photo du film">
+        </figure>   
+        <p>Parution: <?= $film["parution"]?></p>
+        <p>Durée: <?= $film["duree"]?>min</p>
+        <p>Note: <?= $film["note"]?></p>
+        <p>Réalisé par: <br> <a href="index.php?action=detailRealisateur&id=<?= $film["id_realisateur"] ?>"> <?= $film["nom_realisateur"]?></p></a>
+        <p>Genre: <?= $Genre["nom_genre"]?></p>
+    </div>
 
-</div>
 
-<!--tableau affichant le casting du film -->
-<h3>Casting</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Acteurs</th>
-            <th>Id acteurs</th>
-            <th>Rôle</th>
-            <th>Id role</th>
-            <th>photo</th>
-        </tr>
-    </thead>
-    <tbody>
+    <!--casting du film -->
+    <h3>Casting</h3>
+    <div class="cards_list">
         <?php
             foreach($castings as $casting) { ?>
-                <tr>
-                    <td><?= $casting["nomActeur"] ?></td>
-                    <td><?= $casting["id_acteur"] ?></td>
-                    <td><?= $casting["role_personnage"] ?></td>
-                    <td><?= $casting["id_role"] ?></td>
-                    <td><?= $casting["id_role"] ?></td>
-                    <td>
-                        <a href="index.php?action=detailActeur&id=<?= $casting["id_acteur"] ?>">
-                        <img src="<?= $casting['photo']?>" alt="affiche de l'acteur"></a>
-                    </td>
-                </tr>
-            <?php } ?>
-    </tbody>
-</table>
+                <div class="card_item">
+                    <a href="index.php?action=detailActeur&id=<?= $casting["id_acteur"] ?>">
+                        <figure class="fade_card">
+                            <img src="<?= $casting['photo']?>" alt="affiche de l'acteur">    
+                        </figure>
+                    </a>
+                    <p><?= $casting["nomActeur"] ?></p>
+                    <p><?= $casting["role_personnage"] ?></p>
+                </div>
 
+        <?php } ?>
+    </div>
+</div>
 
-<a href="index.php?action=addCasting" class="add_btn">Ajouter un casting </a> 
+<span id="add_btn_position">
+    <a href="index.php?action=addCasting" class="add_btn">Ajouter un casting </a> 
+</span>
 
 <?php
 

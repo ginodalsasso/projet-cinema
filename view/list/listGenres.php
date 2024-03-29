@@ -7,7 +7,6 @@
 </span>
 
 <div class="cards_list">
-    
     <?php
         foreach($requeteGenres->fetchAll() as $genre) { ?>
             <div class="card_item">
@@ -20,8 +19,9 @@
                 <p><?= $genre["nom_genre"] ?></p>
             </div>
         <?php } ?>
-        
-        <p class="count_list">Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
+
+</div>
+<p class="count_list">Il y a <?= $requeteGenres->rowCount() ?> Genres</p> 
 
 <?php
 

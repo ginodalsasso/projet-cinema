@@ -21,11 +21,11 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
 
 
     <!-- liste des films joués par l'acteur -->
-                <h3>Films joués:</h3>
+        <h3>Films joués:</h3>
         <div class="cards_list">
             <?php
-             foreach($filmActeur as $film) { ?>
-                <div class="card_item">
+                foreach($filmActeur as $film) { ?>
+                    <div class="card_item">
                         <a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>">
                             <figure class="fade_card">
                                 <img src="<?= $film['affiche']?>" alt="affiche du film">    
@@ -36,7 +36,7 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
                         <p><?= $film["role_personnage"] ?></p>
                     </div>
 
-                <?php } ?>
+            <?php } ?>
         </div>
     </div>
 

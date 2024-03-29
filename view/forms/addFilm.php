@@ -7,8 +7,8 @@ $genres = $choixGenre->fetchAll();
 ?>
 
 <!-- formulaire d'ajout d'un film -->
-<section class="form">
-    <form action="index.php?action=addFilm" method="post" enctype="multipart/form-data">
+<section class="wrapper">
+    <form class="form" action="index.php?action=addFilm" method="post" enctype="multipart/form-data">
         <p><label>Titre du film :</label></p>
             <input type="text" class="form_item" name="titre" placeholder="Titre" required>
         <p><label>Parution :</label></p>
@@ -32,7 +32,7 @@ $genres = $choixGenre->fetchAll();
         <p><label>Choisissez un genre :</label></p> 
         <!-- checkbox des genres  -->
         <?php foreach($genres as $genre){ ?>
-            <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>"/>
+            <p id="checkbox"><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>"/>
             <label for="<?=$genre["nom_genre"]?>"><?=$genre["nom_genre"]?></label> </p>  
                 <?php } ?> 
                 
@@ -42,7 +42,6 @@ $genres = $choixGenre->fetchAll();
         <p><button type="submit" name="submit" class="add_btn">Ajouter le film</button></p>
     </form>
 </section>
-
 <?php
 
 // Définition des titres pour la vue

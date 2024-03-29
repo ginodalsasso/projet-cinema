@@ -3,9 +3,9 @@
 
 
 <!-- formulaire d'ajout d'un rôle -->
-<section class="form">
+<section class="wrapper">
     <!-- action redirigeant vers la méthode du controller -->
-    <form action="index.php?action=addRole" method="post">
+    <form class="form" action="index.php?action=addRole" method="post">
         <p><label>Nom du rôle :</label></p>
             <input type="text" class="form_item" name="role_personnage" placeholder="nom du rôle" required>
         

@@ -3,9 +3,9 @@
 
 
 <!-- formulaire d'ajout d'un genre -->
-<section class="form">
+<section class="wrapper">
     <!-- action redirigeant vers la méthode du controller -->
-    <form action="index.php?action=addGenre" method="post">
+    <form class="form" action="index.php?action=addGenre" method="post">
         <p><label>Titre du genre :</label></p>
             <input type="text" class="form_item" name="nom_genre" placeholder="Titre" required>
         

@@ -35,7 +35,7 @@ class GenresController{
         $requeteDetailGenre->execute(["id" => $id]);
 
         $requeteGenre = $pdo->prepare("
-            SELECT f.titre, DATE_FORMAT(parution, '%Y') AS parution, gf.id_genre, g.nom_genre, f.id_film, f.affiche
+            SELECT f.titre, DATE_FORMAT(parution, '%Y') AS parution, gf.id_genre, g.nom_genre, f.id_film, f.affiche, g.nom_genre
             FROM genre_film gf
             INNER JOIN film f ON gf.id_film = f.id_film
             INNER JOIN genre g ON gf.id_genre = g.id_genre
