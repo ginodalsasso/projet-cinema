@@ -225,7 +225,6 @@ class ActeursController{
                         "id_personne" => $id,
                         "photo" => $uploadBDD . $file
                     ]);
-                    // "photo" => $uniqueName . ".webp"
                 
                     // message lors de l'ajout d'un acteur
                     $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être modifié !</p>";

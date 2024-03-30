@@ -2,17 +2,17 @@
 <?php ob_start(); ?>
 
 <?php 
-//requête pour récupérer les infos d'un acteur
+//requête pour récupérer les infos d'un film
 $film = $choixFilm->fetch();
 $realisateurs = $choixRealisateur->fetchAll();
 $genres = $choixGenre->fetchAll();
 ?>
 
 <!-- formulaire d'édition d'un acteur -->
-<section class="form">
+<section class="wrapper">
     <!-- action redirigeant vers la méthode du controller -->
 
-    <form action="index.php?action=editFilm&id=<?= $_GET["id"] ?>" method="post" enctype="multipart/form-data">
+    <form class="form" action="index.php?action=editFilm&id=<?= $_GET["id"] ?>" method="post" enctype="multipart/form-data">
         <p><label>Selection du film :</label></p>
            
         <p><label>Titre du film :</label></p>
