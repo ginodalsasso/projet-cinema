@@ -8,7 +8,7 @@ $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
 
 
 <span id="add_btn_position">
-    <a class="add_btn" href="index.php?action=editRealisateur&id=<?= $realisateur["id_realisateur"] ?>">Editer realisateur</a>
+    <a class="add_btn" href="index.php?action=editRealisateur&id=<?= $realisateur["id_personne"] ?>">Editer realisateur</a>
 </span>
 <!-- Affichage des informations sur le réalisateur -->
 <div class="wrapper">
