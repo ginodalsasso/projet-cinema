@@ -9,6 +9,11 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
 <span id="add_btn_position">
     <a class="add_btn" href="index.php?action=editActeur&id=<?= $acteur["id_personne"] ?>">Editer l'acteur</a>
 </span>
+
+<span id="add_btn_position">
+    <a class="add_btn" href="index.php?action=delActeur&id=<?= $acteur["id_personne"] ?>">Supprimer l'acteur</a>
+</span>
+
 <!-- Affichage des informations sur l'acteur -->
 <div class="wrapper">
     <div class="detail">

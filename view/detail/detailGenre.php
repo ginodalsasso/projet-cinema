@@ -10,9 +10,11 @@ $genres = $requeteGenre->fetchAll();?>
 <span id="add_btn_position">
     <a class="add_btn" href="index.php?action=editGenre&id=<?= $detailGenre["id_genre"] ?>">Editer le genre</a>
 </span>
+
 <span id="add_btn_position">
     <a class="add_btn" href="index.php?action=delGenre&id=<?= $detailGenre["id_genre"] ?>">Supprimer le genre</a>
 </span>
+
 <!--tableau affichant les genres de films -->
     
 <div class="cards_list">
