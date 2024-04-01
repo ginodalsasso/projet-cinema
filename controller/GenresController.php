@@ -80,7 +80,7 @@ class GenresController{
     }
 
 
-    ///////////////////////////////////////////////////////MODIFICATION DU GENRE
+///////////////////////////////////////////////////////MODIFICATION DU GENRE
     public function editGenre($id){
         $pdo = Connect::seConnecter();
 
@@ -125,6 +125,31 @@ class GenresController{
             }
         }
         require "view/forms/editGenre.php";
+    }
+
+
+///////////////////////////////////////////////////////SUPPRESSION DU GENRE
+    public function delGenre($id){
+        $pdo = Connect::seConnecter();
+
+        $deleteGenreFilm = $pdo->prepare("
+            DELETE FROM genre_film 
+            WHERE id_genre = :id_genre
+        ");
+        $deleteGenreFilm->execute([
+            "id_genre" => $id
+        ]);
+
+        $deleteGenre = $pdo->prepare("
+            DELETE FROM genre 
+            WHERE id_genre = :id_genre
+        ");
+
+        $deleteGenre->execute([
+            "id_genre" => $id
+        ]);
+
+        header("Location: index.php?action=listGenres");
     }
 
 }

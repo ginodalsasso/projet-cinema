@@ -54,6 +54,12 @@ if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via 
         case "editFilm" : $ctrlFilms->editFilm($id); break;
         case "editRealisateur" : $ctrlRealisateurs->editRealisateur($id); break;
         case "editGenre" : $ctrlGenres->editGenre($id); break;
+        //forms delete
+        case "delActeur" : $ctrlActeurs->delActeur($id); break;
+        case "delRealisateur" : $ctrlRealisateurs->delRealisateur($id); break;
+        case "delFilm" : $ctrlFilms->delFilm($id); break;
+        case "delGenre" : $ctrlGenres->delGenre($id); break;
+
 
         
     }
