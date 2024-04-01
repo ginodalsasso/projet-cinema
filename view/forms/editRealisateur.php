@@ -10,7 +10,7 @@ $realisateur = $choixRealisateur->fetch();
 <section class="wrapper">
     <!-- action redirigeant vers la méthode du controller -->
     <form class="form" action="index.php?action=editRealisateur&id=<?= $_GET["id"] ?>" method="post" enctype="multipart/form-data">
-        <p><label>Selection de l'acteur :</label></p>
+        <p><label>Selection du réalisateur :</label></p>
            
 
         <p><label>Nom :</label></p>

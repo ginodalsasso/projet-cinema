@@ -181,18 +181,17 @@ public function editFilm($id){ //$id du film à éditer
 
     $choixFilm->execute(["id" => $id]);
 
-    // choix du réalisateur
+    // choix du réalisateur formulaire
     $choixRealisateur = $pdo->prepare("
-        SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur, f.id_film
+        SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
         FROM realisateur r
         INNER JOIN personne p ON r.id_personne = p.id_personne
-        INNER JOIN film f ON r.id_realisateur = f.id_realisateur
         ");
 
     $choixRealisateur->execute();
 
 
-    // choix du genre
+    // choix du genre formulaire
     $choixGenre = $pdo->prepare("
         SELECT * 
         FROM genre 
@@ -302,18 +301,19 @@ public function editFilm($id){ //$id du film à éditer
                         note = :note, 
                         affiche = :affiche, 
                         id_realisateur = :id_realisateur
-                    WHERE id_film = :id_film
-                ");
-                
-                $addFilm->execute([
-                    "titre" => $titreFilm,
-                    "parution" => $parutionFilm,
-                    "duree" => $dureeFilm,
-                    "synopsis" => $synopsisFilm,
-                    "note" => $noteFilm,
-                    "affiche" => $uploadBDD . $file,
-                    "id_realisateur" => $realisateurFilm
-                ]);
+                        WHERE id_film = :id_film
+                        ");
+                        $addFilm->execute([
+                            "titre" => $titreFilm,
+                            "parution" => $parutionFilm,
+                            "duree" => $dureeFilm,
+                            "synopsis" => $synopsisFilm,
+                            "note" => $noteFilm,
+                            "affiche" => $uploadBDD . $file,
+                            "id_realisateur" => $realisateurFilm
+                        ]);
+                        
+                                var_dump($addFilm);
                 
                 //suprime le genre dans genre_film
                 $deleteGenre = $pdo->prepare("
