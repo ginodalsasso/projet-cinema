@@ -2,6 +2,7 @@
 <?php ob_start(); ?>
 
         <!---------------------------- FILMS --------------------------------->
+        <h3>Films du moment</h3>
         <div class="cards_list">
             <?php
 
@@ -22,6 +23,7 @@
         </div>
 
         <!---------------------------- ACTEURS --------------------------------->
+        <h3>Acteurs du moment</h3>
         <div class="cards_list">
                 <?php
                 foreach($requeteActeursHome->fetchAll() as $acteur) { ?>
@@ -39,6 +41,7 @@
         </div>
 
         <!---------------------------- REALISATEURS --------------------------------->
+        <h3>Réalisateurs du moment</h3>
         <div class="cards_list">
                 <?php
                 foreach($requeteRealisateursHome->fetchAll() as $realisateur) { ?>
@@ -56,6 +59,7 @@
         </div>
 
         <!---------------------------- GENRES --------------------------------->
+        <h3>Genres du moment</h3>
         <div class="cards_list">
                 <?php
                 foreach($requeteGenresHome->fetchAll() as $genre) { ?>
@@ -74,6 +78,7 @@
         </div>
         
         <!---------------------------- ROLES --------------------------------->
+        <h3>Rôles du moment</h3>
         <div class="cards_list">
                 <?php
                 foreach($requeteRolesHome->fetchAll() as $role) { ?>

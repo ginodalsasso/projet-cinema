@@ -164,12 +164,17 @@ h3{
     font-size: var(--h3-font-size);
     font-weight: 500;
     padding-left: 10px;
+    text-align: center;
 }
 
 /*=============== BUTTON ===============*/
 .btn_display{
     display: flex;
     justify-content: center;
+}
+
+.button_display{
+    display: flex;
 }
 
 .more_btn{
@@ -201,6 +206,7 @@ h3{
 
 #add_btn_position{
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
     position: relative;
     margin-right: 20px;

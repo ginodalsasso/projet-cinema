@@ -7,6 +7,7 @@ $film = $requeteFilm->fetch();
 $castings = $requeteCasting->fetchAll();
 $Genre = $requeteGenre->fetch()?>
 
+
 <span id="add_btn_position">
     <a class="add_btn" href="index.php?action=editFilm&id=<?= $film["id_film"] ?>">Editer le film</a>
 </span>
@@ -14,6 +15,7 @@ $Genre = $requeteGenre->fetch()?>
 <span id="add_btn_position">
     <a class="add_btn" href="index.php?action=delFilm&id=<?= $film["id_film"] ?>">Supprimer le film</a>
 </span>
+
 
 <!-- Affichage des informations sur le film -->
 <div class="wrapper">
@@ -41,7 +43,7 @@ $Genre = $requeteGenre->fetch()?>
                         </figure>
                     </a>
                     <p><?= $casting["nomActeur"] ?></p>
-                    <p><?= $casting["role_personnage"] ?></p>
+                    <p><?= "(Rôle: " . $casting["role_personnage"] . ")" ?></p>
                 </div>
 
         <?php } ?>
