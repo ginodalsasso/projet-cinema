@@ -242,4 +242,47 @@ public function editRealisateur($id){ //$id de le realisateur à éditer
     }
     require "view/forms/editRealisateur.php";
 }
+
+
+///////////////////////////////////////////////////////SUPPRESSION D'UN REALISATEUR
+public function delRealisateur(){
+    $pdo = Connect::seConnecter();
+
+    // Vérifie si l'existence des paramètres 'personneId' et 'realisateurId' est dans l'URL
+    if ($_GET['personneId'] && $_GET['acteurId']) {
+
+        $personneId = $_GET['personneId'];
+        $realisateurId = $_GET['realisateurId'];
+
+        // Suppression dans la table 'film' où 'id_realisateur' correspond à '$realisateurId'
+        $deleteFilm = $pdo->prepare("
+            DELETE FROM film 
+            WHERE id_realisateur = :id_realisateur
+        ");
+        $deleteFilm->execute([
+            "id_realisateur" => $id_realisateur
+        ]);
+
+        // Suppression de l'acteur de la table 'realisateur' où 'id_personne' correspond à '$personneId'
+        $deleteRealisateur = $pdo->prepare("
+            DELETE FROM realisateur 
+            WHERE id_personne = :id_personne
+        ");
+        $deleteRealisateur->execute([
+            "id_personne" => $personneId
+        ]);
+
+        // Suppression de l'entrée correspondante dans la table 'personne' où 'id_personne' correspond à '$personneId'
+        $deletePersonne = $pdo->prepare("
+            DELETE FROM personne 
+            WHERE id_personne = :id_personne
+        ");
+        $deletePersonne->execute([
+            "id_personne" => $personneId
+        ]);
+
+        header("Location:index.php?action=listRealisateurs");
+    }
+}
+
 }

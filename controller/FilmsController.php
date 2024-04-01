@@ -354,5 +354,38 @@ public function editFilm($id){ //$id du film à éditer
     require "view/forms/editFilm.php";
 }
 
+///////////////////////////////////////////////////////SUPPRESSION D'UN FILM
+
+public function delFilm($id){
+    $pdo = Connect::seConnecter();
+
+    
+    $deleteGenreFilm = $pdo->prepare("
+    DELETE FROM genre_film 
+    WHERE id_film = :id_film
+    ");
+    $deleteGenreFilm->execute([
+        "id_film" => $id
+    ]);
+    
+    $deleteCasting = $pdo->prepare("
+    DELETE FROM casting 
+    WHERE id_film = :id_film
+    ");
+    $deleteCasting->execute([
+        "id_film" => $id
+    ]);
+    
+    $deleteFilm = $pdo->prepare("
+        DELETE FROM film 
+        WHERE id_film = :id_film
+    ");
+    $deleteFilm->execute([
+        "id_film" => $id
+    ]);
+
+    header("Location: index.php?action=listFilms");
+
+}
 
 }

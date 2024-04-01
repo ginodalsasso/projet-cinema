@@ -11,7 +11,8 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
 </span>
 
 <span id="add_btn_position">
-    <a class="add_btn" href="index.php?action=delActeur&id=<?= $acteur["id_personne"] ?>">Supprimer l'acteur</a>
+<!-- paramètres 'personneId' et 'acteurId' dans l'URL -->
+    <a class="add_btn" href="index.php?action=delActeur&acteurId=<?= $acteur["id_acteur"] ?>&personneId=<?= $acteur['id_personne'] ?>">Supprimer l'acteur</a>
 </span>
 
 <!-- Affichage des informations sur l'acteur -->

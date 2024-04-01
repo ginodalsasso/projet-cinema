@@ -243,4 +243,46 @@ class ActeursController{
         require "view/forms/editActeur.php";
     }
 
+
+///////////////////////////////////////////////////////SUPPRESSION DUN ACTEUR
+    public function delActeur(){
+        $pdo = Connect::seConnecter();
+    
+        // Vérifie si l'existence des paramètres 'personneId' et 'acteurId' est dans l'URL
+        if ($_GET['personneId'] && $_GET['acteurId']) {
+
+            $personneId = $_GET['personneId'];
+            $acteurId = $_GET['acteurId'];
+    
+            // Suppression dans la table 'casting' où 'id_acteur' correspond à '$acteurId'
+            $deleteCasting = $pdo->prepare("
+                DELETE FROM casting 
+                WHERE id_acteur = :id_acteur
+            ");
+            $deleteCasting->execute([
+                "id_acteur" => $acteurId
+            ]);
+    
+            // Suppression de l'acteur de la table 'acteur' où 'id_personne' correspond à '$personneId'
+            $deleteActeur = $pdo->prepare("
+                DELETE FROM acteur 
+                WHERE id_personne = :id_personne
+            ");
+            $deleteActeur->execute([
+                "id_personne" => $personneId
+            ]);
+    
+            // Suppression de l'entrée correspondante dans la table 'personne' où 'id_personne' correspond à '$personneId'
+            $deletePersonne = $pdo->prepare("
+                DELETE FROM personne 
+                WHERE id_personne = :id_personne
+            ");
+            $deletePersonne->execute([
+                "id_personne" => $personneId
+            ]);
+    
+            header("Location:index.php?action=listActeurs");
+        }
+    }
+
 }
