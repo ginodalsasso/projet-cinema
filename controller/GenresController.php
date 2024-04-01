@@ -26,11 +26,11 @@ class GenresController{
 ///////////////////////////////////////////////////////DETAILS GENRE
     public function detailGenre($id){
         $pdo = Connect::seConnecter();
-        //exécute la requête détail d'un genre
+        // exécute la requête détail d'un genre
         $requeteDetailGenre = $pdo->prepare("   
-            SELECT  g.id_genre, g.nom_genre
-            FROM genre g
-            WHERE g.id_genre = :id
+            SELECT id_genre
+            FROM genre 
+            WHERE id_genre = :id
             ");
         $requeteDetailGenre->execute(["id" => $id]);
 
@@ -41,6 +41,7 @@ class GenresController{
             INNER JOIN genre g ON gf.id_genre = g.id_genre
             WHERE gf.id_genre = :id
         ");
+
         $requeteGenre->execute(["id" => $id]);
         require "view/detail/detailGenre.php"; 
     }
@@ -76,6 +77,54 @@ class GenresController{
             }
         }
         require "view/forms/addGenre.php";
+    }
+
+
+    ///////////////////////////////////////////////////////MODIFICATION DU GENRE
+    public function editGenre($id){
+        $pdo = Connect::seConnecter();
+
+        $choixGenre = $pdo->prepare("
+            SELECT * 
+            FROM genre 
+            WHERE id_genre = :id
+        ");
+
+        $choixGenre->execute(["id" => $id]);
+
+
+        if(isset($_POST['submit'])){
+            // filtre la valeur insérée dans le formulaire
+            $nomGenre = filter_input(INPUT_POST, "nom_genre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if($nomGenre){
+                //exécute la requête d'édition d'un genre
+                $updateGenre = $pdo->prepare("
+                    UPDATE genre
+                    SET nom_genre = :nom_genre
+                    WHERE id_genre = :id_genre
+                ");
+
+                $updateGenre->execute([
+                    "nom_genre" => $nomGenre,
+                    "id_genre" => $id
+                ]);
+    
+
+                // message lors de l'ajout d'un genre
+                $_SESSION['message'] = "<p>Le Genre $nomGenre vient d'être ajouté !</p>";
+                
+                // redirection vers la page du nouveau genre
+                header("Location: index.php?action=listGenres"); 
+                exit;
+            } 
+            else { // sinon message de prévention et redirection à l'accueil
+                $_SESSION['message'] = "<p>Le genre n'a pas été modifié !</p>";
+                header("Location: index.php?action=listGenres");
+                exit;
+            }
+        }
+        require "view/forms/editGenre.php";
     }
 
 }

@@ -6,24 +6,32 @@
 $detailGenre = $requeteDetailGenre->fetch();
 $genres = $requeteGenre->fetchAll();?>
 
+
+<span id="add_btn_position">
+    <a class="add_btn" href="index.php?action=editGenre&id=<?= $detailGenre["id_genre"] ?>">Editer le genre</a>
+</span>
 <!--tableau affichant les genres de films -->
-        <?php
-            foreach($genres as $genre) { ?>
-                <tr>
-                    <td>
-                        <a href="index.php?action=detailFilm&id=<?= $genre["id_film"] ?>">
-                        <img src="<?= $genre['affiche']?>" alt="affiche du film"></a>
-                    </td>
-                    <td><?= $genre["titre"] ?></td>
-                    <td><?= $genre["parution"] ?></td>
-                </tr>
-            <?php } ?>
+    
+<div class="cards_list">
+    <?php
+        foreach($genres as $genre) { ?>
+            <div class="card_item">
+                <a href="index.php?action=detailFilm&id=<?= $genre["id_film"] ?>">
+                    <figure class="fade_card">
+                        <img src="<?= $genre['affiche']?>" alt="affiche du film">
+                    </figure>
+                </a>        
+                <p><?= $genre["titre"] ?></p>
+                <p><?= $genre["parution"] ?></p>
+            </div>
+        <?php } ?>
+</div>   
 
 <?php
 
 // Définition des titres pour la vue
 $titre = "Détail Genre";
-$titre_secondaire = "Détail Genre"; //titre variable en fonction de l'acteur
+$titre_secondaire = "Détail Genre"; //titre variable en fonction du genre
 
 //injecter le contenu dans le template > template.php
 $contenu = ob_get_clean();
