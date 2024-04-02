@@ -12,7 +12,8 @@ $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
 </span>
 
 <span id="add_btn_position">
-    <a class="add_btn" href="index.php?action=delActeur&acteurId=<?= $realisateur["id_realisateur"] ?>&personneId=<?= $realisateur['id_personne'] ?>">Supprimer realisateur</a>
+    <!-- paramètres 'personneId' et 'realisateurId' dans l'URL -->
+    <a class="add_btn" href="index.php?action=delRealisateur&realisateurId=<?= $realisateur["id_realisateur"] ?>&personneId=<?= $realisateur['id_personne'] ?>">Supprimer realisateur</a>
 </span>
 
 <!-- Affichage des informations sur le réalisateur -->
@@ -24,8 +25,8 @@ $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
             </figure>   
         </div>  
         <div class="detail_display_txt">
-            <p>Date de naissance: <?= $realisateur["dateNaissance"]?></p>
-            <p>Sexe: <?= $realisateur["sexe"]?></p>
+        <p>Date de naissance: <?= $realisateur["dateNaissance"]?></p>
+        <p>Sexe: <?= $realisateur["sexe"]?></p>
         </div>
     </div>
 

@@ -335,4 +335,20 @@ input[type=text], input[type=number], input[type=date], textarea, select{
     #check:checked~.menu{right: 0;}
 
     h2{position: static;}
+
+    .detail{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail_display_txt{
+        padding: 50px;
+        text-align: center;
+        max-width: 100vw;
+    }
+
+    .detail_display_img{
+        display: flex;
+        justify-content: center;
+    }
 }

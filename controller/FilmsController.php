@@ -251,7 +251,7 @@ public function editFilm($id){ //$id du film à éditer
             //unlink — Supprime un fichier (ici supprime la photo éditée)
             unlink($unsetPhoto[0]);
             
-            //Requête pour supprimer le lien de la photo actuelle dans la base de données
+            // Requête pour supprimer le lien de la photo actuelle dans la base de données
             $deletePhoto = $pdo->prepare("
                 UPDATE film 
                 SET affiche = null 
@@ -277,7 +277,7 @@ public function editFilm($id){ //$id du film à éditer
             if($titreFilm && $parutionFilm && $dureeFilm && $noteFilm && $synopsisFilm && $realisateurFilm){
                 // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
                 if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-
+                    
                     //pour ne pas écraser deux images ayant le même nom
                     $uniqueName = uniqid('', true);
                     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
@@ -301,7 +301,7 @@ public function editFilm($id){ //$id du film à éditer
                         note = :note, 
                         affiche = :affiche, 
                         id_realisateur = :id_realisateur
-                        WHERE id_film = :id_film
+                    WHERE id_film = :id_film
                         ");
                         $addFilm->execute([
                             "titre" => $titreFilm,
@@ -313,7 +313,6 @@ public function editFilm($id){ //$id du film à éditer
                             "id_realisateur" => $realisateurFilm
                         ]);
                         
-                                var_dump($addFilm);
                 
                 //suprime le genre dans genre_film
                 $deleteGenre = $pdo->prepare("
@@ -383,6 +382,11 @@ public function delFilm($id){
     $deleteFilm->execute([
         "id_film" => $id
     ]);
+
+    foreach($requeteGenres->fetchAll() as $genre) {
+        
+    }
+
 
     header("Location: index.php?action=listFilms");
 

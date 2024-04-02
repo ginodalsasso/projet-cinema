@@ -249,10 +249,39 @@ public function delRealisateur(){
     $pdo = Connect::seConnecter();
 
     // Vérifie si l'existence des paramètres 'personneId' et 'realisateurId' est dans l'URL
-    if ($_GET['personneId'] && $_GET['acteurId']) {
+    if ($_GET['personneId'] && $_GET['realisateurId']) {
 
         $personneId = $_GET['personneId'];
         $realisateurId = $_GET['realisateurId'];
+
+        //cible le ou les films ou le réalisateur est présent
+        $choixFilm = $pdo->prepare("
+            SELECT * 
+            FROM film 
+            WHERE id_realisateur = :id_realisateur
+        ");
+        $choixFilm->execute([
+            "id_realisateur" => $realisateurId
+        ]);
+
+        // boucle sur la supression des castings et des genres films là où nous trouvons l'id du film
+        foreach ($choixFilm->fetchAll() as $film) {
+            $deleteCasting = $pdo->prepare("
+                DELETE FROM casting 
+                WHERE id_film = :id_film
+            ");
+            $deleteCasting->execute([
+                "id_film" => $film['id_film']
+            ]);
+
+            $deleteGenre = $pdo->prepare("
+                DELETE FROM genre_film 
+                WHERE id_film = :id_film
+            ");
+            $deleteGenre->execute([
+                "id_film" => $film['id_film']
+            ]);
+        }
 
         // Suppression dans la table 'film' où 'id_realisateur' correspond à '$realisateurId'
         $deleteFilm = $pdo->prepare("
@@ -260,13 +289,14 @@ public function delRealisateur(){
             WHERE id_realisateur = :id_realisateur
         ");
         $deleteFilm->execute([
-            "id_realisateur" => $id_realisateur
+            "id_realisateur" => $realisateurId
         ]);
-
+        
+        
         // Suppression de l'acteur de la table 'realisateur' où 'id_personne' correspond à '$personneId'
         $deleteRealisateur = $pdo->prepare("
-            DELETE FROM realisateur 
-            WHERE id_personne = :id_personne
+        DELETE FROM realisateur 
+        WHERE id_personne = :id_personne
         ");
         $deleteRealisateur->execute([
             "id_personne" => $personneId
@@ -274,8 +304,8 @@ public function delRealisateur(){
 
         // Suppression de l'entrée correspondante dans la table 'personne' où 'id_personne' correspond à '$personneId'
         $deletePersonne = $pdo->prepare("
-            DELETE FROM personne 
-            WHERE id_personne = :id_personne
+        DELETE FROM personne 
+        WHERE id_personne = :id_personne
         ");
         $deletePersonne->execute([
             "id_personne" => $personneId
