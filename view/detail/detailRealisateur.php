@@ -18,11 +18,15 @@ $filmRealisateur = $requeteFilmRealisateur->fetchAll();?>
 <!-- Affichage des informations sur le réalisateur -->
 <div class="wrapper">
     <div class="detail">
-        <figure class="fade_card">
-            <img src="<?= $realisateur['photo']?>" alt="photo du réalisateur">
-        </figure>
-        <p>Date de naissance: <?= $realisateur["dateNaissance"]?></p>
-        <p>Sexe: <?= $realisateur["sexe"]?></p>
+        <div class="detail_display_img">
+            <figure class="fade_card">
+                <img src="<?= $realisateur['photo']?>" alt="photo du réalisateur">
+            </figure>   
+        </div>  
+        <div class="detail_display_txt">
+            <p>Date de naissance: <?= $realisateur["dateNaissance"]?></p>
+            <p>Sexe: <?= $realisateur["sexe"]?></p>
+        </div>
     </div>
 
     <!-- liste des films réalisés par le réalisateur -->

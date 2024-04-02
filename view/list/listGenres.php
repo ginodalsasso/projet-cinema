@@ -11,7 +11,7 @@
     <?php
         foreach($requeteGenres->fetchAll() as $genre) { ?>
             <div class="card_item">
-                <a href="index.php?action=detailGenre&id=<?= $genre["id_film"] ?>">
+                <a href="index.php?action=detailGenre&id=<?= $genre["id_genre"] ?>">
                     <figure class="fade_card">
                         <img src="<?= $genre['affiche']?>" alt="affiche du film">
                     </figure>

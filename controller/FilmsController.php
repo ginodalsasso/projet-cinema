@@ -25,7 +25,7 @@ class FilmsController {
         $pdo = Connect::seConnecter();
         //exécute la requête détail d'un film
         $requeteFilm = $pdo->prepare("
-            SELECT f.affiche, f.titre, DATE_FORMAT(parution, '%d %m %Y') AS parution, f.duree, f.note, CONCAT(prenom, ' ', nom) AS nom_realisateur, r.id_realisateur, f.id_film
+            SELECT f.affiche, f.titre, DATE_FORMAT(parution, '%d %m %Y') AS parution, f.duree, f.note, CONCAT(prenom, ' ', nom) AS nom_realisateur, synopsis,r.id_realisateur, f.id_film
             FROM film f
             INNER JOIN realisateur r ON f.id_realisateur = r.id_realisateur
             INNER JOIN personne p ON r.id_personne = p.id_personne
@@ -241,7 +241,7 @@ public function editFilm($id){ //$id du film à éditer
                 SELECT affiche 
                 FROM film 
                 WHERE id_film = :id_film
-                ");
+            ");
 
             $getPhoto->execute(["id_film" => $id]);
             
@@ -256,7 +256,7 @@ public function editFilm($id){ //$id du film à éditer
                 UPDATE film 
                 SET affiche = null 
                 WHERE id_film = :id_film
-                ");
+            ");
 
             $deletePhoto->execute(["id_film" => $id]);
 
@@ -346,7 +346,7 @@ public function editFilm($id){ //$id du film à éditer
             } 
             else { // sinon message de prévention et redirection
                 $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
-                header("Location: index.php?action=editFilm");
+                header("Location: index.php?action=listFilms");
                 exit;
             }
         }

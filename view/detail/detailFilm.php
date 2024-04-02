@@ -20,14 +20,19 @@ $Genre = $requeteGenre->fetch()?>
 <!-- Affichage des informations sur le film -->
 <div class="wrapper">
     <div class="detail">
-        <figure class="fade_card">
-            <img src="<?= $film['affiche']?>" alt="photo du film">
-        </figure>   
-        <p>Parution: <?= $film["parution"]?></p>
-        <p>Durée: <?= $film["duree"]?>min</p>
-        <p>Note: <?= $film["note"]?></p>
-        <p>Réalisé par: <br> <a href="index.php?action=detailRealisateur&id=<?= $film["id_realisateur"] ?>"> <?= $film["nom_realisateur"]?></p></a>
-        <p>Genre: <?= $Genre["nom_genre"]?></p>
+        <div class="detail_display_img">
+            <figure class="fade_card">
+                <img src="<?= $film['affiche']?>" alt="photo du film">
+            </figure>   
+        </div>  
+        <div class="detail_display_txt">
+            <p>Parution: <?= $film["parution"]?></p>
+            <p>Durée: <?= $film["duree"]?>min</p>
+            <p>Note: <?= $film["note"]?></p>
+            <p>Genre: <?= $Genre["nom_genre"]?></p>
+            <p>Réalisé par: <br> <a href="index.php?action=detailRealisateur&id=<?= $film["id_realisateur"] ?>"> <?= $film["nom_realisateur"]?></p></a>
+            <p id="synopsis">Synopsis: <?= $film["synopsis"]?></p>
+        </div>
     </div>
 
 

@@ -28,6 +28,7 @@ $genres = $requeteGenre->fetchAll();?>
                 </a>        
                 <p><?= $genre["titre"] ?></p>
                 <p><?= $genre["parution"] ?></p>
+                <p><?= $genre["nom_genre"] ?></p>
             </div>
         <?php } ?>
 </div>   

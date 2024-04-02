@@ -18,11 +18,15 @@ $filmActeur = $requeteFilmActeur->fetchAll();?>
 <!-- Affichage des informations sur l'acteur -->
 <div class="wrapper">
     <div class="detail">
-        <figure class="fade_card">
-            <img src="<?= $acteur['photo']?>" alt="photo de l'acteur">
-        </figure>
-        <p>Date de naissance: <?= $acteur["dateNaissance"]?></p>
-        <p>Sexe: <?= $acteur["sexe"]?></p>
+        <div class="detail_display_img">
+            <figure class="fade_card">
+                <img src="<?= $acteur['photo']?>" alt="photo de l'acteur">
+            </figure>
+        </div>
+        <div class="detail_display_txt">
+            <p>Date de naissance: <?= $acteur["dateNaissance"]?></p>
+            <p>Sexe: <?= $acteur["sexe"]?></p>
+        </div>
     </div>
 
 
