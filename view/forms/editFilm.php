@@ -24,7 +24,7 @@ $genres = $choixGenre->fetchAll();
         <p><label>Note sur 5 :</label></p>
             <input value="<?= $film["note"] ?>" type="number" class="form_item" name="note" required>
         <p><label>Synopsis</label></p>
-            <textarea value="<?= $film["synopsis"] ?>" name="synopsis" rows="5"></textarea>
+            <textarea value="<?= $film["synopsis"] ?>" name="synopsis" rows="5" required></textarea>
 
         <p><label>Réalisateur :</label></p>
         <select name="id_realisateur" id="realisateur-select">
