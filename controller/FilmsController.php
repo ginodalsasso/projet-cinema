@@ -182,13 +182,13 @@ public function editFilm($id){ //$id du film à éditer
     $choixFilm->execute(["id" => $id]);
 
     // // choix du réalisateur formulaire
-    // $choixRealisateur = $pdo->prepare("
-    //     SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
-    //     FROM realisateur r
-    //     INNER JOIN personne p ON r.id_personne = p.id_personne
-    //     ");
+    $choixRealisateur = $pdo->prepare("
+        SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
+        FROM realisateur r
+        INNER JOIN personne p ON r.id_personne = p.id_personne
+        ");
 
-    // $choixRealisateur->execute();
+    $choixRealisateur->execute();
 
     // choix du genre formulaire
     $choixGenre = $pdo->prepare("
@@ -221,65 +221,64 @@ public function editFilm($id){ //$id du film à éditer
         $noteFilm = filter_input(INPUT_POST, "note", FILTER_VALIDATE_INT);
         $synopsisFilm = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $realisateurFilm = filter_input(INPUT_POST, "id_realisateur",  FILTER_VALIDATE_INT);
-        $id_genres = filter_input(INPUT_POST, "genres", FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);  
-        // $id_film = filter_input(INPUT_POST, "id_film", FILTER_VALIDATE_INT); 
+        $id_genres = filter_input(INPUT_POST, "genres", FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);
 
-        // ///GESTION DE L'UPLOAD D'IMAGE
-        // if(isset($_FILES['file'])){
+        ///GESTION DE L'UPLOAD D'IMAGE
+        if(isset($_FILES['file'])){
 
-        //     // Requête pour récupérer le chemin de la photo actuelle du film
-        //     $getPhoto = $pdo->prepare("
-        //         SELECT affiche 
-        //         FROM film 
-        //         WHERE id_film = :id_film
-        //     ");
+            // Requête pour récupérer le chemin de la photo actuelle du film
+            $getPhoto = $pdo->prepare("
+                SELECT affiche 
+                FROM film 
+                WHERE id_film = :id_film
+            ");
 
-        //     $getPhoto->execute(["id_film" => $id]);
+            $getPhoto->execute(["id_film" => $id]);
 
-        //     // Récupère le chemin de la photo actuelle
-        //     $unsetPhoto = $getPhoto->fetch();
+            // Récupère le chemin de la photo actuelle
+            $unsetPhoto = $getPhoto->fetch();
             
-        //     // unlink — Supprime un fichier (ici supprime la photo éditée)
-        //     unlink($unsetPhoto[0]);
+            // unlink — Supprime un fichier (ici supprime la photo éditée)
+            unlink($unsetPhoto[0]);
 
-        //     // Requête pour supprimer le lien de la photo actuelle dans la base de données
-        //     $deletePhoto = $pdo->prepare("
-        //         UPDATE film 
-        //         SET affiche = null 
-        //         WHERE id_film = :id_film
-        //     ");
+            // Requête pour supprimer le lien de la photo actuelle dans la base de données
+            $deletePhoto = $pdo->prepare("
+                UPDATE film 
+                SET affiche = null 
+                WHERE id_film = :id_film
+            ");
 
-        //     // $deletePhoto->execute(["id_film" => $id]);
+            $deletePhoto->execute(["id_film" => $id]);
 
-        //     // infos image
-        //     $tmpName = $_FILES['file']['tmp_name'];
-        //     $name = $_FILES['file']['name'];
-        //     $size = $_FILES['file']['size'];
-        //     $error = $_FILES['file']['error'];
+            // infos image
+            $tmpName = $_FILES['file']['tmp_name'];
+            $name = $_FILES['file']['name'];
+            $size = $_FILES['file']['size'];
+            $error = $_FILES['file']['error'];
         
-        //     //dossier de destination
-        //     $uploadBDD = 'public/img/affiches/';
+            //dossier de destination
+            $uploadBDD = 'public/img/affiches/';
 
-        //     $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
-        //     $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
-        //     $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
-        //     $maxSize = 40000000; 
+            $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
+            $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
+            $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
+            $maxSize = 40000000; 
 
-            if($titreFilm && $parutionFilm && $dureeFilm && $synopsisFilm && $noteFilm && $id_genres ){ // && $realisateurFilm
+            if($titreFilm && $parutionFilm && $dureeFilm && $synopsisFilm && $noteFilm && $id_genres && $realisateurFilm){
                 // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
-                // if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
                     
-                //     //pour ne pas écraser deux images ayant le même nom
-                //     $uniqueName = uniqid('', true);
-                //     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                //     $file = $uniqueName.".".$extension;
-                //     //$file = 5f586bf96dcd38.73540086.jpg
-                //     move_uploaded_file($tmpName, $uploadBDD . $file);   
-                // }
-                // else{
-                //     echo "Mauvaise extension ou taille de l'image trop lourde !";
-                //     exit;
-                // }
+                    //pour ne pas écraser deux images ayant le même nom
+                    $uniqueName = uniqid('', true);
+                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                    $file = $uniqueName.".".$extension;
+                    //$file = 5f586bf96dcd38.73540086.jpg
+                    move_uploaded_file($tmpName, $uploadBDD . $file);   
+                }
+                else{
+                    echo "Mauvaise extension ou taille de l'image trop lourde !";
+                    exit;
+                }
 
                 
                 // exécute la requête d'édition d'un film
@@ -289,11 +288,11 @@ public function editFilm($id){ //$id du film à éditer
                         parution = :parution, 
                         duree = :duree, 
                         synopsis = :synopsis, 
-                        note = :note 
-                        WHERE id_film = :id_film
-                        ");
-                        // affiche = :affiche
-                        // id_realisateur = :id_realisateur
+                        note = :note, 
+                        affiche = :affiche,
+                        id_realisateur = :id_realisateur
+                    WHERE id_film = :id_film
+                    ");
                         // var_dump($addFilm);
 
                 $addFilm->execute([
@@ -302,10 +301,10 @@ public function editFilm($id){ //$id du film à éditer
                     "duree" => $dureeFilm,
                     "synopsis" => $synopsisFilm,
                     "note" => $noteFilm,
+                    "affiche" => $uploadBDD . $file,
+                    "id_realisateur" => $realisateurFilm,
                     "id_film" => $id
                 ]);
-                // "id_realisateur" => $realisateurFilm,
-                // "affiche" => $uploadBDD . $file,
                 // var_dump($realisateurFilm);
                         
                 //suprime le genre dans genre_film
@@ -342,10 +341,12 @@ public function editFilm($id){ //$id du film à éditer
                 header("Location: index.php?action=listFilms");
                 exit;
             }
-        // }
+        }
     }
     require "view/forms/editFilm.php";
 }
+
+
 
 ///////////////////////////////////////////////////////SUPPRESSION D'UN FILM
 

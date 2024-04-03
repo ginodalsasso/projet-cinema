@@ -1,16 +1,6 @@
 
 
 
-<p><label>Réalisateur :</label></p>
-        <select name="id_realisateur" id="realisateur-select">
-            <!-- select des realisateurs -->
-            <?php 
-            foreach($realisateurs as $real){ ?>
-                    <option value="<?=$real["id_realisateur"]?>"><?=$real["nomRealisateur"]?></option>
-            <?php } ?>
-        </select>
-        
-
                 
                 <p><label for="file">Ajouter une affiche</label></p>
         <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg, image/webp">

@@ -4,7 +4,7 @@
 <?php 
 //requête pour récupérer les infos d'un film
 $film = $choixFilm->fetch();
-// $realisateurs = $choixRealisateur->fetchAll();
+$realisateurs = $choixRealisateur->fetchAll();
 $genres = $choixGenre->fetchAll();
 ?>
 
@@ -26,17 +26,30 @@ $genres = $choixGenre->fetchAll();
         <p><label>Synopsis</label></p>
             <textarea value="<?= $film["synopsis"] ?>" name="synopsis" rows="5" required></textarea>
 
-
-            <p><label>Choisissez un genre :</label></p> 
+        <p><label>Choisissez un genre :</label></p> 
         <!-- checkbox des genres  -->
         <?php foreach($genres as $genre){ 
+            // Vérifie si l'ID du genre actuel est présent dans le tableau $idGenre, si oui, $checked est défini à 'checked', sinon il est défini comme vide
             $checked = (in_array($genre['id_genre'], $idGenre)) ? 'checked' : ''; ?>
             <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>" <?= $checked ?>/>
-           
             <label for="<?=$genre["nom_genre"]?>"><?=$genre["nom_genre"]?></label> </p>  
-                <?php } ?> 
+        <?php } ?> 
 
 
+        <p><label>Réalisateur :</label></p>
+        <select name="id_realisateur" id="realisateur-select">
+            <!-- select des realisateurs -->
+            <?php 
+            foreach($realisateurs as $real){
+            // Vérifie si l'ID du réalisateur actuel correspond à l'ID du réalisateur associé au film en cours, Si oui, $selected est défini à 'selected', sinon il est défini comme vide
+            $selected = ($real['id_realisateur'] == $film['id_realisateur']) ? 'selected' : '' ; ?>
+                    <option value="<?=$real["id_realisateur"]?>" <?=$selected?> ><?=$real["nomRealisateur"]?></option>
+            <?php } ?>
+        </select>
+        
+                
+        <p><label for="file">Ajouter une affiche</label></p>
+        <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg, image/webp">
 
 
         <p><button type="submit" name="submit" class="add_btn">Editer le film</button></p>
