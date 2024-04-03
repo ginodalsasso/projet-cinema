@@ -74,54 +74,56 @@ class ActeursController{
                 $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
                 $maxSize = 40000000; 
 
-                if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
-                    // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
-                    if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-                        //pour ne pas écraser deux images ayant le même nom
-                        $uniqueName = uniqid('', true);
-                        //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                        $file = $uniqueName.".".$extension;
-                        //$file = 5f586bf96dcd38.73540086.jpg
-                        move_uploaded_file($tmpName, $uploadBDD . $file);
-                    }
-                    else{
-                        echo "Mauvaise extension ou taille de l'image trop lourde !";
-                        exit;
-                    }
-                    //exécute la requête d'ajout d'un acteur dans personne
-                    $addActeur = $pdo->prepare("
-                        INSERT INTO personne(nom, prenom, sexe, dateNaissance, photo) 
-                        VALUES(:nom, :prenom, :sexe, :dateNaissance, :photo)
-                    ");
-                    $addActeur->execute(["nom" => $nomActeur,
-                                        "prenom" => $prenomActeur,
-                                        "sexe" => $sexeActeur,
-                                        "dateNaissance" => $dateActeur,
-                                        "photo" => $uploadBDD . $file]);
-
-                    //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans personne
-                    $idPersonne=$pdo->lastInsertId();
-
-                    //exécute la requête d'ajout d'un acteur
-                    $addIdActeur = $pdo->prepare("
-                        INSERT INTO acteur (id_personne) 
-                        VALUES (:id_personne)
-                    ");
-                    $addIdActeur->execute(["id_personne" => $idPersonne]);
-                
-                    // message lors de l'ajout d'un acteur
-                    $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être ajouté !</p>";
-                    
-                    // redirection vers la page liste acteurs
-                    header("Location: index.php?action=listActeurs"); 
-                    exit;
-                } 
-                else { // sinon message de prévention et redirection
-                    $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
-                    header("Location: index.php?action=addActeur");
+                // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                    //pour ne pas écraser deux images ayant le même nom
+                    $uniqueName = uniqid('', true);
+                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                    $file = $uniqueName.".".$extension;
+                    //$file = 5f586bf96dcd38.73540086.jpg
+                    move_uploaded_file($tmpName, $uploadBDD . $file);
+                }
+                else{
+                    echo "Mauvaise extension ou taille de l'image trop lourde !";
                     exit;
                 }
             }
+
+            if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
+                //exécute la requête d'ajout d'un acteur dans personne
+                $addActeur = $pdo->prepare("
+                    INSERT INTO personne(nom, prenom, sexe, dateNaissance, photo) 
+                    VALUES(:nom, :prenom, :sexe, :dateNaissance, :photo)
+                ");
+                $addActeur->execute(["nom" => $nomActeur,
+                                    "prenom" => $prenomActeur,
+                                    "sexe" => $sexeActeur,
+                                    "dateNaissance" => $dateActeur,
+                                    "photo" => $uploadBDD . $file]);
+
+                //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans personne
+                $idPersonne=$pdo->lastInsertId();
+
+                //exécute la requête d'ajout d'un acteur
+                $addIdActeur = $pdo->prepare("
+                    INSERT INTO acteur (id_personne) 
+                    VALUES (:id_personne)
+                ");
+                $addIdActeur->execute(["id_personne" => $idPersonne]);
+            
+                // message lors de l'ajout d'un acteur
+                $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être ajouté !</p>";
+                
+                // redirection vers la page liste acteurs
+                header("Location: index.php?action=listActeurs"); 
+                exit;
+            } 
+            else { // sinon message de prévention et redirection
+                $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
+                header("Location: index.php?action=addActeur");
+                exit;
+            }
+            
         }
         require "view/forms/addActeur.php";
     }
@@ -181,7 +183,7 @@ class ActeursController{
                 $name = $_FILES['file']['name'];
                 $size = $_FILES['file']['size'];
                 $error = $_FILES['file']['error'];
-
+                
                 //dossier de destination
                 $uploadBDD = 'public/img/personnes/';
 
@@ -189,55 +191,61 @@ class ActeursController{
                 $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
                 $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
                 $maxSize = 40000000; 
-
-                if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
-                    // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
-                    if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-
-                        //pour ne pas écraser deux images ayant le même nom
-                        $uniqueName = uniqid('', true);
-                        //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                        $file = $uniqueName.".".$extension;
-                        //$file = 5f586bf96dcd38.73540086.jpg
-                        move_uploaded_file($tmpName, $uploadBDD . $file);   
-                    }
-                    else{
-                        echo "Mauvaise extension ou taille de l'image trop lourde !";
-                        exit;
-                    }
-
-                    // exécute la requête d'édition d'un acteur dans personne
-                    $addActeur = $pdo->prepare("
-                        UPDATE personne 
-                        SET nom = :nom, 
-                            prenom = :prenom,
-                            sexe = :sexe, 
-                            dateNaissance = :dateNaissance,
-                            photo = :photo
-                        WHERE id_personne = :id_personne
-                            ");
-
-                    $addActeur->execute([
-                        "nom" => $nomActeur,
-                        "prenom" => $prenomActeur,
-                        "sexe" => $sexeActeur,
-                        "dateNaissance" => $dateActeur,
-                        "id_personne" => $id,
-                        "photo" => $uploadBDD . $file
-                    ]);
                 
-                    // message lors de l'ajout d'un acteur
-                    $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être modifié !</p>";
-                    
-                    // redirection vers la page liste acteurs
-                    header("Location: index.php?action=listActeurs"); 
-                    exit;
-                } 
-                else { // sinon message de prévention et redirection
-                    $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
-                    header("Location: index.php?action=editActeur");
+                // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                    //pour ne pas écraser deux images ayant le même nom
+                    $uniqueName = uniqid('', true);
+                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                    $file = $uniqueName.".".$extension;
+                    //$file = 5f586bf96dcd38.73540086.jpg
+                    $destination = $uploadBDD . $file;
+                    // var_dump($file);
+                    // var_dump($tmpName);
+                    imagewebp(imagecreatefromstring(file_get_contents($file)), $destination);
+                    // var_dump($destination);
+                    // var_dump($tmpName);
+                    // $imgSrc = move_uploaded_file($tmpName, $uploadBDD . $file); 
+                }
+                else{
+                    echo "Mauvaise extension ou taille de l'image trop lourde !";
                     exit;
                 }
+            }
+
+            if($nomActeur && $prenomActeur && $sexeActeur && $dateActeur){
+
+                // exécute la requête d'édition d'un acteur dans personne
+                $addActeur = $pdo->prepare("
+                    UPDATE personne 
+                    SET nom = :nom, 
+                        prenom = :prenom,
+                        sexe = :sexe, 
+                        dateNaissance = :dateNaissance,
+                        photo = :photo
+                    WHERE id_personne = :id_personne
+                        ");
+
+                $addActeur->execute([
+                    "nom" => $nomActeur,
+                    "prenom" => $prenomActeur,
+                    "sexe" => $sexeActeur,
+                    "dateNaissance" => $dateActeur,
+                    "id_personne" => $id,
+                    "photo" => $uploadBDD . $file
+                ]);
+            
+                // message lors de l'ajout d'un acteur
+                $_SESSION['message'] = "<p>L'acteur' $nomActeur vient d'être modifié !</p>";
+                
+                // redirection vers la page liste acteurs
+                header("Location: index.php?action=listActeurs"); 
+                exit;
+            } 
+            else { // sinon message de prévention et redirection
+                $_SESSION['message'] = "<p>L'acteur n'a pas été enregistré !</p>";
+                header("Location: index.php?action=editActeur");
+                exit;
             }
         }
         require "view/forms/editActeur.php";

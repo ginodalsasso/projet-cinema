@@ -94,74 +94,77 @@ public function addFilm(){
             $error = $_FILES['file']['error'];
 
             //dossier de destination
-            $uploadBDD = 'public/img/personnes/';
+            $uploadBDD = 'public/img/affiches/';
 
             $tabExtension = explode('.', $name); //découpe le nom et l'extension de l'image en plusiseurs morceaux (à chaque point)
             $extension = strtolower(end($tabExtension)); //récupère le dernier élément de la découpe du nom de l'image (donc l'extension)
             $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
             $maxSize = 40000000; 
 
-            if($titreFilm && $parutionFilm && $dureeFilm && $noteFilm && $synopsisFilm  && $realisateurFilm){ //&& $genreFilm
-
-                // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
-                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-                    //pour ne pas écraser deux images ayant le même nom
-                    $uniqueName = uniqid('', true);
-                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                    $file = $uniqueName.".".$extension;
-                    //$file = 5f586bf96dcd38.73540086.jpg
-                    move_uploaded_file($tmpName, $uploadBDD . $file);
-                }
-                else{
-                    echo "Mauvaise extension ou taille de l'image trop lourde !";
-                    exit;
-                }
-                //exécute la requête d'ajout d'un film
-                $addFilm = $pdo->prepare("
-                    INSERT INTO film(titre, parution, duree, synopsis, note, affiche, id_realisateur) 
-                    VALUES(:titre, :parution, :duree, :synopsis, :note, :affiche, :id_realisateur)
-                ");
-                $addFilm->execute(["titre" => $titreFilm,
-                                    "parution" => $parutionFilm,
-                                    "duree" => $dureeFilm,
-                                    "synopsis" => $synopsisFilm,
-                                    "note" => $noteFilm,
-                                    "affiche" => $uploadBDD . $file,
-                                    "id_realisateur" => $realisateurFilm
-                                ]);
-
-                //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans film
-                $idFilm = $pdo->lastInsertId();
-                 
-                // boucle pour ajouter les genres sélectionnés en bdd
-                foreach ($_POST['genres'] as $genreFilm) {
-
-                    $genreFilm = filter_var($genreFilm, FILTER_VALIDATE_INT);
-
-                    if ($genreFilm) {
-                        $requeteAddGenre = $pdo->prepare("
-                            INSERT INTO genre_film (id_film, id_genre)
-                            VALUES (:id_film, :id_genre)
-                        ");
-
-                        $requeteAddGenre->execute(["id_film" => $idFilm,
-                                                  "id_genre" => $genreFilm]);
-                    }
-                }
-            
-                // message lors de l'ajout d'un film
-                $_SESSION['message'] = "<p>Le film $titreFilm vient d'être ajouté !</p>";
-                
-                // redirection vers la page liste realisateur
-                header("Location: index.php?action=listFilms"); 
-                exit;
-            } 
-            else { // sinon message de prévention et redirection
-                $_SESSION['message'] = "<p>Le film n'a pas été enregistré !</p>";
-                header("Location: index.php?action=addFilm");
-                exit;
+            // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+            if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                //pour ne pas écraser deux images ayant le même nom
+                $uniqueName = uniqid('', true);
+                //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                $file = $uniqueName.".".$extension;
+                //$file = 5f586bf96dcd38.73540086.jpg
+                move_uploaded_file($tmpName, $uploadBDD . $file);
             }
+            else{
+                echo "Mauvaise extension ou taille de l'image trop lourde !";
+                // exit;
+            }
+        } 
+
+    
+        if($titreFilm && $parutionFilm && $dureeFilm && $noteFilm && $synopsisFilm  && $realisateurFilm){ //&& $genreFilm
+
+            //exécute la requête d'ajout d'un film
+            $addFilm = $pdo->prepare("
+                INSERT INTO film(titre, parution, duree, synopsis, note, affiche, id_realisateur) 
+                VALUES(:titre, :parution, :duree, :synopsis, :note, :affiche, :id_realisateur)
+            ");
+            $addFilm->execute(["titre" => $titreFilm,
+                                "parution" => $parutionFilm,
+                                "duree" => $dureeFilm,
+                                "synopsis" => $synopsisFilm,
+                                "note" => $noteFilm,
+                                "affiche" => $uploadBDD . $file,
+                                "id_realisateur" => $realisateurFilm
+                            ]);
+
+            //Retourne l'identifiant de la dernière ligne insérée pour récuperer l'id dans film
+            $idFilm = $pdo->lastInsertId();
+                
+            // boucle pour ajouter les genres sélectionnés en bdd
+            foreach ($_POST['genres'] as $genreFilm) {
+
+                $genreFilm = filter_var($genreFilm, FILTER_VALIDATE_INT);
+
+                if ($genreFilm) {
+                    $requeteAddGenre = $pdo->prepare("
+                        INSERT INTO genre_film (id_film, id_genre)
+                        VALUES (:id_film, :id_genre)
+                    ");
+
+                    $requeteAddGenre->execute(["id_film" => $idFilm,
+                                                "id_genre" => $genreFilm]);
+                }
+            }
+        
+            // message lors de l'ajout d'un film
+            $_SESSION['message'] = "<p>Le film $titreFilm vient d'être ajouté !</p>";
+            
+            // redirection vers la page liste realisateur
+            header("Location: index.php?action=listFilms"); 
+            exit;
+        } 
+        else { // sinon message de prévention et redirection
+            $_SESSION['message'] = "<p>Le film n'a pas été enregistré !</p>";
+            header("Location: index.php?action=addFilm");
+            exit;
         }
+       
     }
     require "view/forms/addFilm.php";
 }
@@ -214,7 +217,6 @@ public function editFilm($id){ //$id du film à éditer
 
     if(isset($_POST ['submit'])){
         // var_dump($_POST);
-        var_dump($safePost);
         // filtre la valeur insérée dans le formulaire
         $titreFilm = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $parutionFilm = filter_input(INPUT_POST, "parution", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -265,21 +267,23 @@ public function editFilm($id){ //$id du film à éditer
             $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
             $maxSize = 40000000; 
 
-            if($titreFilm && $parutionFilm && $dureeFilm && $synopsisFilm && $noteFilm && $id_genres && $realisateurFilm){
-                // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
-                if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
-                    
-                    //pour ne pas écraser deux images ayant le même nom
-                    $uniqueName = uniqid('', true);
-                    //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                    $file = $uniqueName.".".$extension;
-                    //$file = 5f586bf96dcd38.73540086.jpg
-                    move_uploaded_file($tmpName, $uploadBDD . $file);   
-                }
-                else{
-                    echo "Mauvaise extension ou taille de l'image trop lourde !";
-                    exit;
-                }
+            // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
+            if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
+                
+                //pour ne pas écraser deux images ayant le même nom
+                $uniqueName = uniqid('', true);
+                //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                $file = $uniqueName.".".$extension;
+                //$file = 5f586bf96dcd38.73540086.jpg
+                move_uploaded_file($tmpName, $uploadBDD . $file);   
+            }
+            else{
+                echo "Mauvaise extension ou taille de l'image trop lourde !";
+                exit;
+            }
+        }    
+           
+        if($titreFilm && $parutionFilm && $dureeFilm && $synopsisFilm && $noteFilm && $id_genres && $realisateurFilm){
 
                 //-----------------update des infos du film
                 // exécute la requête d'édition d'un film
@@ -343,7 +347,6 @@ public function editFilm($id){ //$id du film à éditer
                 exit;
             }
         }
-    }
     require "view/forms/editFilm.php";
 }
 

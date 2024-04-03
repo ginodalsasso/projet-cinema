@@ -4,7 +4,6 @@
 <?php
 //requête pour récupérer les infos d'un genre
 $genre = $choixGenre->fetch();
-var_dump($genre);
 ?>
 <!-- formulaire d'édition d'un genre -->
 <section class="wrapper">

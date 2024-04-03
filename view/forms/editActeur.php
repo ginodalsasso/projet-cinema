@@ -20,7 +20,7 @@ $acteur = $choixActeur->fetch();
         <p><label>Sexe :</label></p>
             <input value="<?= $acteur["sexe"] ?>" type="text" class="form_item" name="sexe" required>
         <p><label>Date de naissance :</label></p>
-            <input value="<?= $acteur["dateNaissance"] ?>" type="date" class="form_item" name="dateNaissance" required>
+            <input value="<?= $acteur["dateNaissance"] ?>" type="date" class="form_item" name="dateNaissance" >
         <p><label for="file">Ajouter une photo</label></p>
             <input type="file" name="file" class="add_photo" accept="image/jpg, image/png, image/jpeg, image/webp">
         

@@ -16,8 +16,9 @@ $roles = $choixRole->fetchAll();
         <!-- select des films -->
         <select name="id_film" id="film-select">
             <?php 
-            foreach($films as $film){ ?>
-                    <option value="<?=$film["id_film"]?>"><?=$film["titre"]?></option>
+            foreach($films as $film){ 
+                $selected = ($film['id_film'] == $film['id_film']) ? 'selected' : '' ; ?>
+                <option value="<?=$film["id_film"]?>" <?=$selected?>><?=$film["titre"]?></option>
             <?php } ?>
         </select>
 

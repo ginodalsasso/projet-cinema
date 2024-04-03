@@ -23,7 +23,7 @@ class HomeController {
             FROM personne p
             INNER JOIN acteur a ON p.id_personne = a.id_personne
             ORDER BY nom
-            LIMIT 6
+            LIMIT 5
     ");
         $requeteRealisateursHome = $pdo->query("
             SELECT CONCAT(prenom,' ',nom) AS nomRealisateur, id_realisateur, photo
