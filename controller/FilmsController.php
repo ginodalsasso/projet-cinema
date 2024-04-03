@@ -174,22 +174,21 @@ public function editFilm($id){ //$id du film à éditer
     
     //exécute la requête détail d'un film pour préremplir les champs du formulaires ($id)
     $choixFilm = $pdo->prepare("
-        SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, duree, affiche, note, synopsis, id_film
+        SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, duree, affiche, note, synopsis, id_film, id_realisateur
         FROM film
         WHERE id_film = :id
         ");
 
     $choixFilm->execute(["id" => $id]);
 
-    // choix du réalisateur formulaire
-    $choixRealisateur = $pdo->prepare("
-        SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
-        FROM realisateur r
-        INNER JOIN personne p ON r.id_personne = p.id_personne
-        ");
+    // // choix du réalisateur formulaire
+    // $choixRealisateur = $pdo->prepare("
+    //     SELECT CONCAT(p.prenom, ' ', p.nom) AS nomRealisateur, r.id_realisateur
+    //     FROM realisateur r
+    //     INNER JOIN personne p ON r.id_personne = p.id_personne
+    //     ");
 
-    $choixRealisateur->execute();
-
+    // $choixRealisateur->execute();
 
     // choix du genre formulaire
     $choixGenre = $pdo->prepare("
@@ -221,16 +220,12 @@ public function editFilm($id){ //$id du film à éditer
         $dureeFilm = filter_input(INPUT_POST, "duree",  FILTER_VALIDATE_INT);
         $noteFilm = filter_input(INPUT_POST, "note", FILTER_VALIDATE_INT);
         $synopsisFilm = filter_input(INPUT_POST, "synopsis", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        // $id_film = filter_input(INPUT_POST, "id_film", FILTER_VALIDATE_INT);
         $realisateurFilm = filter_input(INPUT_POST, "id_realisateur",  FILTER_VALIDATE_INT);
-        // $id_genres = isset($_POST["id_genre"]) ? $_POST["id_genre"] : array();
-        // var_dump($id_genres);
-  
+        $id_genres = filter_input(INPUT_POST, "genres", FILTER_VALIDATE_INT, FILTER_REQUIRE_ARRAY);  
+        // $id_film = filter_input(INPUT_POST, "id_film", FILTER_VALIDATE_INT); 
 
-        /////GESTION DE L'UPLOAD D'IMAGE
+        // ///GESTION DE L'UPLOAD D'IMAGE
         // if(isset($_FILES['file'])){
-
- 
 
         //     // Requête pour récupérer le chemin de la photo actuelle du film
         //     $getPhoto = $pdo->prepare("
@@ -270,7 +265,7 @@ public function editFilm($id){ //$id du film à éditer
         //     $extensions = ['jpg', 'png', 'jpeg', 'webp']; //extensions autorisées
         //     $maxSize = 40000000; 
 
-            if($titreFilm && $parutionFilm && $dureeFilm && $synopsisFilm && $noteFilm && $realisateurFilm ){ // && $id_genres
+            if($titreFilm && $parutionFilm && $dureeFilm && $synopsisFilm && $noteFilm && $id_genres ){ // && $realisateurFilm
                 // si l'extension est dans le tableau des extensions autorisées que la taille est ok alors il éxécute la fonction et s'il n'y à pas d'erreur
                 // if(in_array($extension, $extensions) && $size <= $maxSize && $error == 0){
                     
@@ -294,11 +289,12 @@ public function editFilm($id){ //$id du film à éditer
                         parution = :parution, 
                         duree = :duree, 
                         synopsis = :synopsis, 
-                        note = :note, 
-                        id_realisateur = :id_realisateur
+                        note = :note 
                         WHERE id_film = :id_film
                         ");
                         // affiche = :affiche
+                        // id_realisateur = :id_realisateur
+                        // var_dump($addFilm);
 
                 $addFilm->execute([
                     "titre" => $titreFilm,
@@ -306,31 +302,33 @@ public function editFilm($id){ //$id du film à éditer
                     "duree" => $dureeFilm,
                     "synopsis" => $synopsisFilm,
                     "note" => $noteFilm,
-                    "id_realisateur" => $realisateurFilm
+                    "id_film" => $id
                 ]);
-                // "affiche" => 'notnull',
+                // "id_realisateur" => $realisateurFilm,
+                // "affiche" => $uploadBDD . $file,
+                // var_dump($realisateurFilm);
                         
-                // //suprime le genre dans genre_film
-                // $deleteGenre = $pdo->prepare("
-                //     DELETE FROM genre_film
-                //     WHERE id_film = :id_film
-                // ");
+                //suprime le genre dans genre_film
+                $deleteGenre = $pdo->prepare("
+                    DELETE FROM genre_film
+                    WHERE id_film = :id_film
+                ");
+                $deleteGenre->execute([
+                    "id_film" => $id
+                ]);
+
+                foreach ($id_genres as $id_genre) {
+                    $addGenre = $pdo->prepare("
+                        INSERT INTO genre_film (id_film, id_genre) 
+                        VALUES (:id_film, :id_genre)
+                    ");
+
+                    $addGenre->execute([
+                        "id_film" => $id,
+                        "id_genre" => $id_genre
+                    ]);
+                }
                 
-                // $deleteGenre->execute(["
-                //     id_film" => $id
-                // ]);
-
-                // foreach ($id_genres as $id_genre) {
-                //     $addGenre = $pdo->prepare("
-                //         INSERT INTO genre_film (id_film, id_genre) 
-                //         VALUES (:id_film, :id_genre)
-                //     ");
-
-                //     $addGenre->execute([
-                //         "id_film" => $id,
-                //         "id_genre" => $id_genre
-                //     ]);
-                // }
 
                 // message lors de l'ajout d'un film
                 $_SESSION['message'] = "<p>Le film' $titreFilm vient d'être modifié !</p>";

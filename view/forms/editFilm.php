@@ -4,7 +4,7 @@
 <?php 
 //requête pour récupérer les infos d'un film
 $film = $choixFilm->fetch();
-$realisateurs = $choixRealisateur->fetchAll();
+// $realisateurs = $choixRealisateur->fetchAll();
 $genres = $choixGenre->fetchAll();
 ?>
 
@@ -26,25 +26,19 @@ $genres = $choixGenre->fetchAll();
         <p><label>Synopsis</label></p>
             <textarea value="<?= $film["synopsis"] ?>" name="synopsis" rows="5" required></textarea>
 
-        <p><label>Réalisateur :</label></p>
-        <select name="id_realisateur" id="realisateur-select">
-            <!-- select des realisateurs -->
-            <?php 
-            foreach($realisateurs as $real){ ?>
-                    <option value="<?=$real["id_realisateur"]?>"><?=$real["nomRealisateur"]?></option>
-            <?php } ?>
-        </select>
 
-        <p><label>Choisissez un genre :</label></p> 
+            <p><label>Choisissez un genre :</label></p> 
         <!-- checkbox des genres  -->
-        <?php foreach($genres as $genre){ ?>
-            <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>"/>
+        <?php foreach($genres as $genre){ 
+            $checked = (in_array($genre['id_genre'], $idGenre)) ? 'checked' : ''; ?>
+            <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>" <?= $checked ?>/>
+           
             <label for="<?=$genre["nom_genre"]?>"><?=$genre["nom_genre"]?></label> </p>  
                 <?php } ?> 
-                
-        <p><label for="file">Ajouter une affiche</label></p>
-            <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg, image/webp">
-        
+
+
+
+
         <p><button type="submit" name="submit" class="add_btn">Editer le film</button></p>
     </form>
 </section>
