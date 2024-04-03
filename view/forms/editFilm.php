@@ -6,6 +6,7 @@
 $film = $choixFilm->fetch();
 $realisateurs = $choixRealisateur->fetchAll();
 $genres = $choixGenre->fetchAll();
+$currentTime = new DateTime('now');
 ?>
 
 <!-- formulaire d'édition d'un acteur -->
@@ -18,22 +19,13 @@ $genres = $choixGenre->fetchAll();
         <p><label>Titre du film :</label></p>
             <input value="<?= $film["titre"] ?>" type="text" class="form_item" name="titre" required>
         <p><label>Parution :</label></p>
-            <input value="<?= $film["parution"] ?>" type="date" class="form_item" name="parution" required>
+            <input value="<?= $film["parution"] ?>" type="date" max="2024-04-30" class="form_item" name="parution" required>
         <p><label>Durée :</label></p>
-            <input value="<?= $film["duree"] ?>" type="number" class="form_item" name="duree" required>
+            <input value="<?= $film["duree"] ?>" type="number" min="0" max="999" class="form_item" name="duree" required>
         <p><label>Note sur 5 :</label></p>
-            <input value="<?= $film["note"] ?>" type="number" class="form_item" name="note" required>
+            <input value="<?= $film["note"] ?>" type="number" min="0" max="5" class="form_item" name="note" required>
         <p><label>Synopsis</label></p>
             <textarea value="<?= $film["synopsis"] ?>" name="synopsis" rows="5" required></textarea>
-
-        <p><label>Choisissez un genre :</label></p> 
-        <!-- checkbox des genres  -->
-        <?php foreach($genres as $genre){ 
-            // Vérifie si l'ID du genre actuel est présent dans le tableau $idGenre, si oui, $checked est défini à 'checked', sinon il est défini comme vide
-            $checked = (in_array($genre['id_genre'], $idGenre)) ? 'checked' : ''; ?>
-            <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>" <?= $checked ?>/>
-            <label for="<?=$genre["nom_genre"]?>"><?=$genre["nom_genre"]?></label> </p>  
-        <?php } ?> 
 
 
         <p><label>Réalisateur :</label></p>
@@ -47,7 +39,17 @@ $genres = $choixGenre->fetchAll();
             <?php } ?>
         </select>
         
-                
+        
+        <p><label>Choisissez un genre :</label></p> 
+        <!-- checkbox des genres  -->
+        <?php foreach($genres as $genre){ 
+            // Vérifie si l'ID du genre actuel est présent dans le tableau $idGenre, si oui, $checked est défini à 'checked', sinon il est défini comme vide, Si la condition est vraie ($real['id_realisateur'] est égal à $film['id_realisateur']), alors 'selected' est attribué à la variable $selected.
+            $checked = (in_array($genre['id_genre'], $idGenre)) ? 'checked' : ''; ?>
+            <p><input type="checkbox" id="<?=$genre["nom_genre"]?>" name="genres[]" value="<?=$genre["id_genre"]?>" <?= $checked ?>/>
+            <label for="<?=$genre["nom_genre"]?>"><?=$genre["nom_genre"]?></label> </p>  
+        <?php } ?> 
+
+          
         <p><label for="file">Ajouter une affiche</label></p>
         <input type="file" name="file" class="add_photo" accept="image/png, image/jpeg, image/webp">
 

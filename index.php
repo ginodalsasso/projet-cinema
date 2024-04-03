@@ -22,12 +22,13 @@ $ctrlGenres = new GenresController();
 $ctrlRealisateurs = new RealisateursController(); 
 $ctrlRoles = new RolesController(); 
 
-
 //En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller
 $id= (isset($_GET["id"])) ? $_GET["id"] : null;
 
 
 if(isset($_GET["action"])){ //En fonction de l'action détectée dans l'URL via la propriété "action" on interagit avec la bonne méthode du controller
+    $action = filter_var($_GET['action'], FILTER_SANITIZE_SPECIAL_CHARS, FILTER_VALIDATE_INT);
+
     switch ($_GET["action"]){
 
         case "home" : $ctrlHome->listHome(); break;

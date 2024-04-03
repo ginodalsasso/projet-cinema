@@ -171,7 +171,7 @@ public function addFilm(){
 
 public function editFilm($id){ //$id du film à éditer
     $pdo = Connect::seConnecter();
-    
+
     //exécute la requête détail d'un film pour préremplir les champs du formulaires ($id)
     $choixFilm = $pdo->prepare("
         SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, duree, affiche, note, synopsis, id_film, id_realisateur
@@ -212,8 +212,9 @@ public function editFilm($id){ //$id du film à éditer
         }
 
 
-    if(isset($_POST['submit'])){
+    if(isset($_POST ['submit'])){
         // var_dump($_POST);
+        var_dump($safePost);
         // filtre la valeur insérée dans le formulaire
         $titreFilm = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $parutionFilm = filter_input(INPUT_POST, "parution", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -280,7 +281,7 @@ public function editFilm($id){ //$id du film à éditer
                     exit;
                 }
 
-                
+                //-----------------update des infos du film
                 // exécute la requête d'édition d'un film
                 $addFilm = $pdo->prepare("
                     UPDATE film
@@ -293,7 +294,6 @@ public function editFilm($id){ //$id du film à éditer
                         id_realisateur = :id_realisateur
                     WHERE id_film = :id_film
                     ");
-                        // var_dump($addFilm);
 
                 $addFilm->execute([
                     "titre" => $titreFilm,
@@ -305,8 +305,9 @@ public function editFilm($id){ //$id du film à éditer
                     "id_realisateur" => $realisateurFilm,
                     "id_film" => $id
                 ]);
-                // var_dump($realisateurFilm);
-                        
+                
+
+                //-----------------update du genre du film
                 //suprime le genre dans genre_film
                 $deleteGenre = $pdo->prepare("
                     DELETE FROM genre_film
