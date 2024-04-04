@@ -177,7 +177,7 @@ public function editFilm($id){ //$id du film à éditer
 
     //exécute la requête détail d'un film pour préremplir les champs du formulaires ($id)
     $choixFilm = $pdo->prepare("
-        SELECT titre, DATE_FORMAT(parution, '%Y') AS parution, duree, affiche, note, synopsis, id_film, id_realisateur
+        SELECT titre, parution, duree, affiche, note, synopsis, id_film, id_realisateur
         FROM film
         WHERE id_film = :id
         ");

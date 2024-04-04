@@ -136,7 +136,7 @@ class ActeursController{
         
         //exécute la requête détail d'un acteur pour préremplir les champs du formulaires ($id)
         $choixActeur = $pdo->prepare("
-            SELECT p.prenom, p.nom, DATE_FORMAT(dateNaissance, '%d/%m/%Y') AS dateNaissance, p.sexe, a.id_personne, a.id_acteur, p.photo
+            SELECT p.prenom, p.nom, dateNaissance, p.sexe, a.id_personne, a.id_acteur, p.photo
             FROM personne p
             INNER JOIN acteur a ON p.id_personne = a.id_personne
             WHERE a.id_personne = :id 
@@ -165,9 +165,10 @@ class ActeursController{
                 
                 // Récupère le chemin de la photo actuelle
                 $unsetPhoto = $getPhoto->fetch();
+                // var_dump($unsetPhoto);die;
                 
                 //unlink — Supprime un fichier (ici supprime la photo éditée)
-                unlink($unsetPhoto[0]);
+                unlink($unsetPhoto['photo']);
                 
                 //Requête pour supprimer le lien de la photo actuelle dans la base de données
                 $deletePhoto = $pdo->prepare("
@@ -197,15 +198,12 @@ class ActeursController{
                     //pour ne pas écraser deux images ayant le même nom
                     $uniqueName = uniqid('', true);
                     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                    $file = $uniqueName.".".$extension;
+                    // $file = $uniqueName.".".$extension;
+                    $file = $uniqueName.".webp";
                     //$file = 5f586bf96dcd38.73540086.jpg
                     $destination = $uploadBDD . $file;
-                    // var_dump($file);
-                    // var_dump($tmpName);
-                    imagewebp(imagecreatefromstring(file_get_contents($file)), $destination);
-                    // var_dump($destination);
-                    // var_dump($tmpName);
-                    // $imgSrc = move_uploaded_file($tmpName, $uploadBDD . $file); 
+                    imagewebp(imagecreatefromstring(file_get_contents($tmpName)), $destination);
+                    // move_uploaded_file($tmpName, $uploadBDD . $file); 
                 }
                 else{
                     echo "Mauvaise extension ou taille de l'image trop lourde !";

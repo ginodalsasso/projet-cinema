@@ -135,7 +135,7 @@ public function editRealisateur($id){ //$id de le realisateur à éditer
     
     //exécute la requête détail d'un réalisateur pour préremplir les champs du formulaires ($id)
     $choixRealisateur = $pdo->prepare("
-        SELECT p.prenom, p.nom, DATE_FORMAT(dateNaissance, '%d/%m/%Y') AS dateNaissance, p.sexe, r.id_personne, r.id_realisateur, p.photo
+        SELECT p.prenom, p.nom, dateNaissance, p.sexe, r.id_personne, r.id_realisateur, p.photo
         FROM personne p
         INNER JOIN realisateur r ON p.id_personne = r.id_personne
         WHERE r.id_personne = :id 
