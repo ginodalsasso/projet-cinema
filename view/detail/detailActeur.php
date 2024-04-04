@@ -2,9 +2,13 @@
 <?php ob_start(); ?>
 
 <?php 
+
+
 // Récupération des données de l'acteur et de ses films
 $acteur = $requeteActeur->fetch();
-$filmActeur = $requeteFilmActeur->fetchAll();?>
+$filmActeur = $requeteFilmActeur->fetchAll();
+
+?>
 
 <span id="add_btn_position">
     <a class="add_btn" href="index.php?action=editActeur&id=<?= $acteur["id_personne"] ?>">Editer l'acteur</a>

@@ -6,7 +6,6 @@ use Model\Connect; //"use" pour accéder à la classe Connect
 
 class ActeursController{
 
-
 ///////////////////////////////////////////////////////LIST ACTEURS
     public function listActeurs(){
         $pdo = Connect::seConnecter();

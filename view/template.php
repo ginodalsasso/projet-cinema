@@ -1,3 +1,7 @@
+<?php 
+// require_once("GetMessage.php"); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +44,15 @@
         </nav>
     </header>
 <!--==================== BODY ====================-->
+
+    <div id="messages">
+        <?php
+            if(isset($_SESSION["message"]) && !empty($_SESSION["message"])) { //si le message existe dans ma session ou s'il n'est pas nul alors le message s'affichera
+                echo getMessage();
+                unset($_SESSION["message"]);  //enlève le message à chaque changement de session
+            }
+        ?>
+    </div>
     <main>
         <div id="contenu">
             <h1>PDO Cinema</h1>
