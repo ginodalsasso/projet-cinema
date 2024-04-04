@@ -3,11 +3,10 @@ namespace GetMessage;
 
 class GetMessage{
 
-    function getMessage() {  //me permet de récupérer un message suite à l'action d'un utilisateur et de le retourner
-        if(isset($_SESSION["message"])) {
-            $message = $_SESSION["message"];
+    public function getMessage(){ 
+        if(isset($_SESSION["message"]) || !empty($_SESSION["message"])) {
+            echo $_SESSION["message"]; //affiche le message
+            unset($_SESSION["message"]); //supprime le message une fois affiché
         }
-        return $message;
     }
-    
 }

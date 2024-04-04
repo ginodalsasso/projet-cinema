@@ -2,12 +2,14 @@
 <?php ob_start(); ?>
 
 <?php 
-
-
 // Récupération des données de l'acteur et de ses films
 $acteur = $requeteActeur->fetch();
 $filmActeur = $requeteFilmActeur->fetchAll();
 
+if (isset($_SESSION['message'])){
+    echo $_SESSION['message'] ;
+    unset($_SESSION['message']);
+}
 ?>
 
 <span id="add_btn_position">

@@ -1,5 +1,10 @@
 <!-- On commence et on termine la vue par "ob_start()" et "ob_get_clean()" -->
-<?php ob_start(); ?>
+<?php ob_start(); 
+        if (isset($_SESSION['message'] )){
+            echo $_SESSION['message'] ;
+            unset($_SESSION['message'] );
+        }
+?>
 
 <!-- Affichage du nombre d'Acteurs -->
 <span id="add_btn_position">

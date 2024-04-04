@@ -197,12 +197,12 @@ class ActeursController{
                     //pour ne pas écraser deux images ayant le même nom
                     $uniqueName = uniqid('', true);
                     //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
-                    // $file = $uniqueName.".".$extension;
                     $file = $uniqueName.".webp";
                     //$file = 5f586bf96dcd38.73540086.jpg
                     $destination = $uploadBDD . $file;
-                    imagewebp(imagecreatefromstring(file_get_contents($tmpName)), $destination);
-                    // move_uploaded_file($tmpName, $uploadBDD . $file); 
+                    // imagewebp(imagecreatefromstring(file_get_contents($tmpName)), $destination);
+                    move_uploaded_file($tmpName, $uploadBDD . $file); 
+                    // var_dump(imagewebp());
                 }
                 else{
                     echo "Mauvaise extension ou taille de l'image trop lourde !";
