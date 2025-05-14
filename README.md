@@ -1,6 +1,6 @@
 # Project for a Film Wiki
 
-This project involves the design of a website with a database for a film wiki, as well as the creation of a user interface to manage it.
+This project involves the design of a website with a database using OOP for a film wiki, as well as the creation of a user interface to manage it.
 
 ## Project Contents
 
